@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Alienchow</title>
+    <link>/post/</link>
+    <description>Alienchow (Posts)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+
+    
+    <lastBuildDate>Sat, 26 Oct 2024 00:00:00 +0000</lastBuildDate>
+    
+    <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Debugging SRE</title>
+      <link>/post/debugging_sre/</link>
+      <pubDate>Sat, 26 Oct 2024 00:00:00 +0000</pubDate>
+      
+      <guid>/post/debugging_sre/</guid>
+      <description>&lt;p&gt;&lt;code&gt;Debugging SRE&lt;/code&gt; is a series of low effort brain dumps, consisting of reliability
+practices that I have observed, and to discuss anti-patterns masquerading as
+reliability diligence.&lt;/p&gt;
+&lt;p&gt;After resigning from the Google tech island to practise Site Reliability
+Engineering (SRE) elsewhere, I have come to realise that many organisations
+fancy the branding and engineering credibility of a tech organisation that has
+a dedicated SRE team.&lt;/p&gt;
+&lt;p&gt;Yet, few of the organisations that I&amp;rsquo;ve observed so far actually embrace the
+full implementation of an SRE function. Many are just rebranded DevOps or IT
+Sysadmins. More concerningly, some of these SRE orgs are made up of traditional
+Ops Engineers who barely know how to code beyond copy pasting Bash or Powershell
+scripts. The premise of the original Google SREs was to have SWEs work on ops
+using software development perspectives, so as to bridge the divide between Dev
+and Ops to focus on service stability.&lt;/p&gt;
+&lt;p&gt;During my talks with several SRE teams in other companies, some become defensive
+about what actually constitutes SRE work. And that Google alone does not hold
+the absolute definition of &lt;code&gt;Site Reliability Engineering&lt;/code&gt;. To me, appointments
+and titles are pointless debates over semantics. The crux of the matter is that
+SRE work itself focuses on a few core principles that are often espoused, but
+rarely implemented in proper. After a couple of recent catalytic events, I&amp;rsquo;ve
+decided to start penning down my thoughts, for whatever the two cents they are
+worth.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Debugging SRE #1: SOP Opera</title>
+      <link>/post/sop_opera/</link>
+      <pubDate>Sat, 26 Oct 2024 00:00:00 +0000</pubDate>
+      
+      <guid>/post/sop_opera/</guid>
+      <description>&lt;h2 id=&#34;reliability-theatrics-galore&#34; &gt;
+&lt;div&gt;
+    &lt;a href=&#34;#reliability-theatrics-galore&#34;&gt;
+        #
+    &lt;/a&gt;
+    Reliability Theatrics Galore
+&lt;/div&gt;
+&lt;/h2&gt;
+&lt;p&gt;To preface this topic with some context, these are some observations that I have
+made over the past months:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Release engineer accidentally skipping a step during deployment causing an
+incident.&lt;/li&gt;
+&lt;li&gt;Hastily written, obligatory post-mortem reports with action items involving
+adding more steps to the standard operating procedure (SOP), to check the check
+that was missed during a check.&lt;/li&gt;
+&lt;li&gt;No one knew how to roll back a service because no one knew where the SOP was.&lt;/li&gt;
+&lt;li&gt;A service was penalised for not following a handful of the thousands of lines
+of security and reliability SOP.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The recurring commonality in all the above is the reliance on SOP. SOP has its
+place for basic sanity checks and release approvals, but it is increasingly
+apparent that teams have been using it as a crutch to weasel out of building
+scalable, long-term solutions.&lt;/p&gt;
+&lt;p&gt;An example would be the aforementioned incident caused by skipping a step in
+SOP. The resulting incident post-mortem had a series of follow-up action items
+that were merely adding on more manual checking steps to the SOP! This hasn&amp;rsquo;t
+been a one-off scenario. When I broached this anti-pattern with the relevant
+teams, the usual excuses were:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;&amp;ldquo;No time to automate, features come first.&amp;rdquo;&lt;/em&gt;
+&lt;em&gt;&amp;ldquo;It&amp;rsquo;s a one-off and won&amp;rsquo;t happen again.&amp;rdquo;&lt;/em&gt;
+&lt;em&gt;&amp;ldquo;SOP has been working for us, so there is no reason to automate it.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Most egregious excuse of all:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;&amp;ldquo;Automation makes us ignorant to operations. We need to do it by hand to
+to check each command with our eyeballs.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;By that logic, everyone should write bytecode to fully understand their
+software.&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;humans-cannot-be-trusted&#34; &gt;
+&lt;div&gt;
+    &lt;a href=&#34;#humans-cannot-be-trusted&#34;&gt;
+        #
+    &lt;/a&gt;
+    Humans Cannot Be Trusted
+&lt;/div&gt;
+&lt;/h2&gt;
+&lt;p&gt;I have seen a highly competent SWE accidentally cause a global outage because of
+a trailing whitespace fat-fingered into a hand typed command with implicit
+behaviour. The automation for the action hadn&amp;rsquo;t existed for that specific
+incident response, and it had been a busy day. In the midst of an
+adrenaline-charged mitigation attempt, the engineer brought down multiple
+clusters of the service.&lt;/p&gt;
+&lt;p&gt;You could argue that maybe that meant that the engineer isn&amp;rsquo;t as competent as I
+had perceived. But I took that to mean that humans, regardless of competency,
+cannot be trusted to reliably repeat a list of executions. Depending on SOP to
+carry out some basic commands by hand is a recipe for eventual failure.&lt;/p&gt;
+&lt;h2 id=&#34;machines-cannot-be-trusted&#34; &gt;
+&lt;div&gt;
+    &lt;a href=&#34;#machines-cannot-be-trusted&#34;&gt;
+        #
+    &lt;/a&gt;
+    Machines Cannot Be Trusted
+&lt;/div&gt;
+&lt;/h2&gt;
+&lt;p&gt;To give credit where its due, automation &lt;strong&gt;can&lt;/strong&gt; in fact introduce unpredictable
+behaviour due to unexpected behaviour. I once automated a migration workflow
+that executed the following simple actions:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Load updated quota numbers from the single source of truth quota service.&lt;/li&gt;
+&lt;li&gt;Sync the updated quota numbers to our new resource management service.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Since we were migrating hundreds of thousands of internal users, I didn&amp;rsquo;t trust
+myself to reliably run the command arguments correctly every single time. I set
+up the automation, sharded the users into migration batches, each with canary
+subgroups and hit start.&lt;/p&gt;
+&lt;p&gt;After monitoring the dashboards and alerts for an hour, I was pleased with how
+well everything was going and left for lunch. I received a page 20m later.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;Hey, your migration took down our largest services and the alerts are going
+nuts.&amp;rdquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;As it turned out, the quota service had a quirk in its behaviour. It provided
+quota numbers by loading the data from multiple other sources. And if any of the
+sources threw an error, it did not propagate that error. Instead, it failed
+silently while confidently returning &lt;code&gt;quota: 0, status: SUCCESS&lt;/code&gt;. You can see
+where this is going.&lt;/p&gt;
+&lt;p&gt;The canary groups had migrated without issues. The migration of the large users
+coincided with data source errors, leading to the quota service authoritatively
+telling my automation that there were no quotas. Servers started spinning down,
+and clients experienced massive load shedding.&lt;/p&gt;
+&lt;p&gt;The resulting action items involved introducing hard stops that checked for
+large quota deltas and changes reducing quota to 0, and a myriad of other
+preventive actions.&lt;/p&gt;
+&lt;p&gt;But it had never crossed our minds that we should throw the entire automation
+out to run the migration by hand. &lt;strong&gt;The safety checks put in place were still
+automated.&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;scalability---beyond-just-system-architecture&#34; &gt;
+&lt;div&gt;
+    &lt;a href=&#34;#scalability---beyond-just-system-architecture&#34;&gt;
+        #
+    &lt;/a&gt;
+    Scalability - Beyond Just System Architecture
+&lt;/div&gt;
+&lt;/h2&gt;
+&lt;p&gt;Some SOPs have incredibly simple, low hanging fruit such as:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Go to &lt;code&gt;www.example.com&lt;/code&gt; and check if webpage loads.&lt;/li&gt;
+&lt;li&gt;Restart dependency service before deployment.&lt;/li&gt;
+&lt;li&gt;Copy new certificates (by hand 😒), and SSH in to run a curl test.&lt;/li&gt;
+&lt;li&gt;Ask a second person to go through all steps one by one.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Look, these aren&amp;rsquo;t magical, human-necessary operations that require esoteric
+brain heuristics to analyse and execute. They are dead simple steps that create
+&lt;a href=&#34;https://sre.google/sre-book/eliminating-toil/&#34;&gt;toil&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This brings us to one of the commonly overlooked aspect of the word
+&lt;code&gt;scalability&lt;/code&gt;. When SRE teams discuss service scalability, you have
+non-practicing AWS/GCP/Azure certified solutions architects jumping out of
+the woodwork preaching the usual basic concepts like stateless tasks, event
+driven design, eventual consistency etc. Rarely discussed is the scalability of
+processes.&lt;/p&gt;
+&lt;p&gt;The ironic truth is that many of these certified architects work on low traffic
+services that have less need for service scalability as opposed to the
+scalability of the operations team.&lt;/p&gt;
+&lt;p&gt;A key principle taught to SREs in Google through implicit observation is to grow
+a service with sublinear SRE support. The main ingredient enabling that
+scalability of processes is undoubtedly &lt;strong&gt;automation&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;scaling-processes&#34; &gt;
+&lt;div&gt;
+    &lt;a href=&#34;#scaling-processes&#34;&gt;
+        #
+    &lt;/a&gt;
+    Scaling Processes
+&lt;/div&gt;
+&lt;/h2&gt;
+&lt;p&gt;When we find ourselves adding yet another step in a growing list of lines of an
+SOP, ask ourselves a few questions:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Is this step really needed?&lt;/li&gt;
+&lt;li&gt;Can this step be automated?&lt;/li&gt;
+&lt;li&gt;Can there be a more scalable way to automate these steps without snowflake
+script spaghetti?&lt;/li&gt;
+&lt;li&gt;Is this really a one-off? Can even a one-off event benefit from eliminating
+human toil?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;A single additional step in an SOP is insignificant increment in toil, but a
+culture of using SOP as a crutch is a snowballing avalanche.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;When we find ourselves in yet another post-mortem review, question the reliance
+humans to follow instructions. Question any action items that involve just
+adding on to SOP. Stop using SOP as theatrical, performative reliability
+diligence.&lt;/p&gt;
+&lt;p&gt;If the argument against automation despite the above is a lack of time, then the
+SRE function, in whatever form it may take on in the organisation, isn&amp;rsquo;t
+properly set up to succeed. The priorities are clearly misplaced.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,4 @@
+baseURL = 'https://alienchow.github.io/'
+languageCode = 'en-us'
+title = 'Alienchow'
+theme = 'anubis2'
