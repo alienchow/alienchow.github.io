@@ -60,7 +60,7 @@ carry out some basic commands by hand is a recipe for eventual failure.
 
 ## Machines Cannot Be Trusted
 
-To give credit where its due, automation **can** in fact introduce unpredictable
+To give credit where it's due, automation **can** in fact introduce unpredictable
 behaviour due to unexpected behaviour. I once automated a migration workflow
 that executed the following simple actions:
 
