@@ -143,9 +143,9 @@ human toil?
 > culture of using SOP as a crutch is a snowballing avalanche.
 
 When we find ourselves in yet another post-mortem review, question the reliance
-humans to follow instructions. Question any action items that involve just
-adding on to SOP. Stop using SOP as theatrical, performative reliability
-diligence.
+on humans to follow instructions. Question any action items that involve just
+adding on more steps to SOPs. Stop using SOP as theatrical, performative
+reliability "diligence".
 
 If the argument against automation despite the above is a lack of time, then the
 SRE function, in whatever form it may take on in the organisation, isn't
