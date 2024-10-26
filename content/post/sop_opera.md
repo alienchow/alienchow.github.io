@@ -6,8 +6,8 @@ title = 'Debugging SRE #1: SOP Opera'
 
 ## Reliability Theatrics Galore
 
-To preface this topic with some context, these are some observations that I have
-made over the past months:
+In recent months, I have observed several troubling anti-patterns carried out
+by team operations:
 
 * Release engineer accidentally skipping a step during deployment causing an
 incident.
