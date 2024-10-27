@@ -8,7 +8,7 @@ Engineer for the Government Technology Agency of Singapore. My work involves
 building SRE capability and defining the SRE organisational function for
 several of our critical services.
 
-Prior to this, I worked for 7 years as a SRE in Google, 2 years in
+Prior to this, I worked for 7 years as an SRE in Google, 2 years in
 [Grab](https://engineering.grab.com/authors#lian-yuanlin), and 2 years in
 [Koei Tecmo](https://www.koeitecmo.com.sg/) making cat games.
 
