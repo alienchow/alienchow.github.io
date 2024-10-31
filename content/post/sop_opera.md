@@ -1,5 +1,5 @@
 +++
-date = '2024-10-26'
+date = '2024-10-31'
 draft = false
 title = 'Debugging SRE #1: SOP Opera'
 categories = ['Debugging SRE']
