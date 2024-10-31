@@ -3,8 +3,20 @@ languageCode = 'en-us'
 title = 'Alienchow'
 theme = 'anubis2'
 
-[[menu.main]]
-    name = "About"
-    weight = 2
-    url = "/about/"
+[menu]
+    [[menu.main]]
+        name = "Categories"
+        weight = 1
+        url = "/categories/"
+    [[menu.main]]
+        name = "Tags"
+        weight = 2
+        url = "/tags/"
+    [[menu.main]]
+        name = "About"
+        weight = 3
+        url = "/about/"
 
+[taxonomies]
+    tag = "tags"
+    category = "categories"

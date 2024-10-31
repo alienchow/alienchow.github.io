@@ -2,38 +2,38 @@
 date = '2024-10-26'
 draft = false
 title = 'Debugging SRE #1: SOP Opera'
+categories = ['Debugging SRE']
+tags = ['sre']
 +++
 
 ## Reliability Theatrics Galore
 
-In recent months, I have observed several troubling anti-patterns carried out
-by team operations:
+Recently, I have observed several anti-patterns going on in teams:
 
 * Release engineer accidentally skipping a step during deployment causing an
 incident.
-* Hastily written, obligatory post-mortem reports with action items involving
-adding more steps to the standard operating procedure (SOP), to check the check
-that was missed during a check.
 * No one knew how to roll back a service because no one knew where the SOP was.
-* A service was penalised for not following a handful of the thousands of lines
-of security and reliability SOP.
+* Action items in the post-mortem reports added more manual checks to the
+ever-growing checklist
 
-The recurring commonality in all the above is the reliance on SOP. SOP has its
-place for basic sanity checks and release approvals, but it is increasingly
-apparent that teams have been using it as a crutch to weasel out of building
-scalable, long-term solutions.
+The recurring theme in all the above is the over reliance on Standard Operating
+Procedures (SOP). SOP has its place for basic sanity checks and release
+approvals, but several teams have been using it as a crutch to weasel out of
+building scalable, long-term solutions.
 
-An example would be the aforementioned incident caused by skipping a step in
-SOP. The resulting incident post-mortem had a series of follow-up action items
-that were merely adding on more manual checking steps to the SOP! This hasn't
-been a one-off scenario. When I broached this anti-pattern with the relevant
-teams, the usual excuses were:
+Going back through the archives of hastily written post-mortem reports, it was
+increasingly apparent that many failed checks were "solved" by adding more
+manual checks to the SOPs. An organisation cannot sublinearly scale its SRE team
+if no time is dedicated to properly automate away toil. When I broached this
+anti-pattern with the relevant teams, the usual excuses were:
 
 > *"No time to automate, features come first."*
+
 > *"It's a one-off and won't happen again."*
+
 > *"SOP has been working for us, so there is no reason to automate it."*
 
-Most egregious excuse of all:
+The most egregious excuse of all:
 > *"Automation makes us ignorant to operations. We need to do it by hand to
 > to check each command with our eyeballs."*
 
@@ -46,22 +46,24 @@ software.**
 
 ## Humans Cannot Be Trusted
 
-I have seen a highly competent SWE accidentally cause a global outage because of
-a trailing whitespace fat-fingered into a hand typed command with implicit
-behaviour. The automation for the action hadn't existed for that specific
-incident response, and it had been a busy day. In the midst of an
-adrenaline-charged mitigation attempt, the engineer brought down multiple
-clusters of the service.
+Humans are prone to errors, it is only a matter of time. Some of the best
+software engineers I have worked with have committed some fat-finger error which
+led to entire systems being shut down.
 
-You could argue that maybe that meant that the engineer isn't as competent as I
-had perceived. But I took that to mean that humans, regardless of competency,
-cannot be trusted to reliably repeat a list of executions. Depending on SOP to
-carry out some basic commands by hand is a recipe for eventual failure.
+While it could be argued that this puts the engineers' competency in question, I
+view it as humans being fallible even for repetitive tasks. It could be due to
+an adrenaline-fueled incident response, or it could be a 3AM pager alert after a
+long day of work, or a sporadic brain fart. Everyone handling production will
+eventually trigger an outage caused by human error.
+
+SREs should always be questioning if a manual step can be automated away.
 
 ## Machines Cannot Be Trusted
 
 To give credit where it's due, automation **can** in fact introduce unpredictable
-behaviour due to unexpected behaviour. I once automated a migration workflow
+behaviour due to unexpected behaviour. Here's an anecdote.
+
+I once automated a migration workflow
 that executed the following simple actions:
 
 1. Load updated quota numbers from the single source of truth quota service.

@@ -2,6 +2,8 @@
 date = '2024-10-26'
 draft = false
 title = 'Debugging SRE'
+categories = ['Debugging SRE']
+tags = ['sre']
 +++
 
 `Debugging SRE` is a series of low effort brain dumps, consisting of reliability
