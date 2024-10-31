@@ -1,5 +1,5 @@
 +++
-date = '2024-11-01'
+date = '2024-11-01T00:00:00+08:00'
 draft = false
 title = 'Debugging SRE #2: Pager Burnout'
 categories = ['Debugging SRE']
