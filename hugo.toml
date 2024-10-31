@@ -5,18 +5,28 @@ theme = 'anubis2'
 
 [menu]
     [[menu.main]]
-        name = "Categories"
+        name = "Home"
         weight = 1
+        url = "/"
+    [[menu.main]]
+        name = "Categories"
+        weight = 2
         url = "/categories/"
     [[menu.main]]
         name = "Tags"
-        weight = 2
+        weight = 3
         url = "/tags/"
     [[menu.main]]
         name = "About"
-        weight = 3
+        weight = 4
         url = "/about/"
 
 [taxonomies]
     tag = "tags"
     category = "categories"
+
+[params]
+    [[params.social]]
+        id = "github"
+        name = "alienchow"
+
