@@ -29,4 +29,6 @@ theme = 'anubis2'
     [[params.social]]
         id = "github"
         name = "alienchow"
-
+    [[params.social]]
+        id = "linkedin"
+        name = "lianyuanlin"
