@@ -12,7 +12,7 @@ tags = [
 ]
 +++
 
-![this is fine](this_is_fine.jpg)
+{{< img src="this_is_fine.jpg" alt="this is fine" >}}
 
 It goes without saying that even the most disciplined SRE functions eventually
 experience pager burnout. Over time, I've found that the reasons can be
@@ -56,7 +56,7 @@ only respond when paged.
 
 One of the first things I noticed after joining my current team was the sheer
 amount of alert noise going on in the Slack channels. A major part of the noise
-were clearly due to overly sensitive alerting thresholds and low priority
+was clearly due to overly sensitive alerting thresholds and low priority
 signals:
 
 1. 1 pod in a service had a 2 minute CPU utilisation above 50%.
