@@ -26,6 +26,7 @@ theme = 'anubis2'
     category = "categories"
 
 [params]
+    darkMode = true
     [[params.social]]
         id = "github"
         name = "alienchow"
