@@ -388,4 +388,4 @@ sub-microsecond range that no one functioning at the L7 networking layer would
 care for. But we can see how this would be extremely important for performance
 at the kernel level.
 
-RCU is pretty cool!
+You're right Balázs, RCU is pretty cool. 😎
