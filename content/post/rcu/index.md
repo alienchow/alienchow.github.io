@@ -255,10 +255,10 @@ close(stopChan)
 
 Golang benchmarking in the stdlib seems to assign some big number to `b.N`,
 loops until a certain timeout, then prints out the total number of operations it
-managed to run along with the average nanoseconds per op. As with any
-experienced backend engineer would know, average latencies are mostly useless
-numbers as it smears the histogram across the samples into a single number,
-making it hard to profile the performance of the system.
+managed to run along with the average nanoseconds per op. As any experienced
+backend engineer might have already noticed, average latencies are mostly
+useless numbers as it smears the histogram into a single number, making it hard
+to profile the performance of the system.
 
 Let's try adding some percentile tracking logic to each reader goroutine.
 
