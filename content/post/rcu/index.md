@@ -233,9 +233,158 @@ It would appear that if the frequency of updates is anywhere grounded in
 reality, the optimisation gains are entirely inconsequential regardless of the
 size of the data.
 
-{{< img src="benchmarks_dont_matter.jpg" alt="points don't matter" >}}
+Or is that truly the case here? If we look at how the benchmark code is written:
 
-Given how performant Golang is, I think we can limit such inane optimisations
-to the kernel.
+```golang
+c := &AtomicRCUConfigs{}
+wg := &sync.WaitGroup{}
+stopChan := make(chan struct{})
+go updater(c, configs, 5*time.Nanosecond, stopChan)
+b.Run("Update Small Config frequent", func(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			_, _ = c.Get("feature_0")
+		}()
+	}
+	wg.Wait()
+})
+close(stopChan)
+```
 
-RCU is still pretty cool though. 🛌 
+Golang benchmarking in the stdlib seems to assign some big number to `b.N`,
+loops until a certain timeout, then prints out the total number of operations it
+managed to run along with the average nanoseconds per op. As with any
+experienced backend engineer would know, average latencies are mostly useless
+numbers as it smears the histogram across the samples into a single number,
+making it hard to profile the performance of the system.
+
+Let's try adding some percentile tracking logic to each reader goroutine.
+
+```golang
+func percentile(values []int64, pct float64) float64 {
+	roughIndex := float64(len(values)/100) * pct
+	a, b := roughIndex, roughIndex
+	if math.Floor(roughIndex) != roughIndex {
+		a = math.Floor(roughIndex)
+		b = a + 1
+	}
+	if a >= float64(len(values)) {
+		a = float64(len(values)) - 1
+		b = a
+	}
+	return (float64(values[int(a)]) + float64(values[int(b)])) / 2
+}
+
+func printPercentiles() {
+	for testCase, latencies := range percentiles {
+		sort.Slice(latencies, func(i, j int) bool {
+        return latencies[i] < latencies[j]
+    })
+		fmt.Printf("%-*s - \tP50:%-*dP90:%-*dP99:%-*dMax:%-*d\n",
+			50, testCase,
+			15, int64(percentile(latencies, 50.0)),
+			15, int64(percentile(latencies, 90.0)),
+			15, int64(percentile(latencies, 99.0)),
+			15, int64(percentile(latencies, 100.0)),
+		)
+	}
+}
+```
+
+Then we create a large channel to receive the metrics.
+
+```golang
+latencyCh := make(chan latencyMetric, 100000000)
+percentiles = map[string][]int64{}
+go func() {
+	for {
+		metric, ok := <-latencyCh
+		if !ok {
+			return
+		}
+		percentiles[metric.testCase] = append(percentiles[metric.testCase], metric.value)
+	}
+}()
+// .
+// .
+// .
+b.Run("Update Small Config frequent", func(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			now := time.Now().UnixNano()
+			_, _ = c.Get("feature_0")
+			latencyCh <- latencyMetric{"Simple Mutex - Update Small Config frequent", time.Now().UnixNano() - now}
+		}()
+	}
+	wg.Wait()
+})
+```
+
+We try not to do `make(chan latencyMetric)` with no buffer as that would cause
+a choke point for the goroutines when they are all trying to pump back metric
+data. Let's run the benchmarks again, I'lll also rearrange and organise the rows
+for better legibility.
+
+```
+--Average benchmarks--
+
+BenchmarkSimpleMutex/Update_Small_Config_frequent-8          3715759	       320.1 ns/op
+BenchmarkPseudoRCU/Update_Small_Config_frequent-8          	 4084863	       297.8 ns/op
+BenchmarkAtomicRCU/Update_Small_Config_frequent-8          	 4307348	       285.7 ns/op
+
+BenchmarkSimpleMutex/Update_Small_Config_seldom-8            4277454	       286.3 ns/op
+BenchmarkAtomicRCU/Update_Small_Config_seldom-8            	 4508586	       271.8 ns/op
+BenchmarkPseudoRCU/Update_Small_Config_seldom-8            	 4509039	       271.6 ns/op
+
+BenchmarkSimpleMutex/Update_Large_Config_frequent-8          3394640	       370.3 ns/op
+BenchmarkPseudoRCU/Update_Large_Config_frequent-8          	 4468725	       300.7 ns/op
+BenchmarkAtomicRCU/Update_Large_Config_frequent-8          	 4534879	       279.8 ns/op
+
+BenchmarkSimpleMutex/Update_Large_Config_seldom-8            4260943	       285.0 ns/op
+BenchmarkPseudoRCU/Update_Large_Config_seldom-8            	 4504276	       265.9 ns/op
+BenchmarkAtomicRCU/Update_Large_Config_seldom-8            	 4470870	       264.5 ns/op
+
+--Distribution benchmarks (nanoseconds)--
+
+Simple Mutex - Update Small Config frequent         	P50:137            P90:32882          P99:289197         Max:2519006        
+Pseudo RCU - Update Small Config frequent           	P50:133            P90:31640          P99:226916         Max:1513739        
+Atomic RCU - Update Small Config frequent           	P50:84             P90:134            P99:207            Max:26497          
+
+Simple Mutex - Update Small Config seldom           	P50:105            P90:173            P99:281            Max:43536          
+Pseudo RCU - Update Small Config seldom             	P50:107            P90:174            P99:273            Max:24992          
+Atomic RCU - Update Small Config seldom             	P50:59             P90:123            P99:205            Max:7940           
+
+Simple Mutex - Update Large Config frequent         	P50:350            P90:523505         P99:1243037        Max:5655489        
+Pseudo RCU - Update Large Config frequent           	P50:103            P90:147            P99:475            Max:1549957        
+Atomic RCU - Update Large Config frequent           	P50:71             P90:101            P99:182            Max:6320           
+
+Simple Mutex - Update Large Config seldom           	P50:110            P90:172            P99:282            Max:282293         
+Pseudo RCU - Update Large Config seldom             	P50:108            P90:166            P99:269            Max:8000           
+Atomic RCU - Update Large Config seldom             	P50:69             P90:125            P99:204            Max:9743
+```
+
+Now it is extremely clear that while the benchmark averages seem to show almost
+no optimisation improvements, the distribution tells a very different story. The
+worst performer here is aligned with our intuition where frequent locking
+updates with large configurations are going to cause "large" spikes on the tail
+end latencies. I put "large" in quotes because it's still just a 1-5ms increase
+that may not be significant enough to warrant attention for a web service
+loading data from MySQL.
+
+The cool thing is that just by excluding the copying from the write locks and
+focus solely on locking the pointer update, we can already significantly reduce
+tail latencies for configs with seldom updates. Even more surprising was how
+much more performant the atomic operations were. Even with frequnt large config
+updates, the true lock-free atomic readers are magnitudes faster than the other
+methods.
+
+With that said, the "magnitudes" of improvements are still within the
+sub-microsecond range that no one functioning at the L7 networking layer would
+care for. But we can see how this would be extremely important for performance
+at the kernel level.
+
+RCU is pretty cool.
