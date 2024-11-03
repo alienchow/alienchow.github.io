@@ -324,10 +324,12 @@ b.Run("Update Small Config frequent", func(b *testing.B) {
 })
 ```
 
-We try not to do `make(chan latencyMetric)` with no buffer as that would cause
-a choke point for the goroutines when they are all trying to pump back metric
-data. Let's run the benchmarks again, I'lll also rearrange and organise the rows
-for better legibility.
+Tip: Don't just create async accessed channels with no buffer like so:
+`make(chan latencyMetric)`. It would cause a choke point for the goroutines
+when they are all trying to pump back metric data.
+
+Let's run the benchmarks again! The results were rearranged and formatted for
+better legibility.
 
 ```
 --Average benchmarks--
@@ -369,22 +371,21 @@ Atomic RCU - Update Large Config seldom             	P50:69             P90:125 
 
 Now it is extremely clear that while the benchmark averages seem to show almost
 no optimisation improvements, the distribution tells a very different story. The
-worst performer here is aligned with our intuition where frequent locking
-updates with large configurations are going to cause "large" spikes on the tail
-end latencies. I put "large" in quotes because it's still just a 1-5ms increase
-that may not be significant enough to warrant attention for a web service
-loading data from MySQL.
+worst performer here is aligned with our intuition: Frequent locking updates
+with large configurations are going to cause "large" spikes on the tail
+latencies. I put "large" in quotes because it's still just a 1-5ms increase that
+may not be significant enough to warrant attention for a web service loading
+data from MySQL.
 
 The cool thing is that just by excluding the copying from the write locks and
 focus solely on locking the pointer update, we can already significantly reduce
-tail latencies for configs with seldom updates. Even more surprising was how
-much more performant the atomic operations were. Even with frequnt large config
-updates, the true lock-free atomic readers are magnitudes faster than the other
-methods.
+tail latencies for configs with seldom updates. The more surprising part was the
+performance of the atomic operations. Even with freqeunt large config updates,
+the true lock-free atomic readers are magnitudes faster than the other methods.
 
 With that said, the "magnitudes" of improvements are still within the
 sub-microsecond range that no one functioning at the L7 networking layer would
 care for. But we can see how this would be extremely important for performance
 at the kernel level.
 
-RCU is pretty cool.
+RCU is pretty cool!
