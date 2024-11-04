@@ -229,6 +229,10 @@ BenchmarkAtomicRCU/Update_Large_Config_seldom-8       4966724   240.7 ns/op
 
 ...👀
 
+...
+
+{{< img src="benchmarks_dont_matter.jpg" alt="Benchmarks don't matter" >}}
+
 It would appear that if the frequency of updates is anywhere grounded in
 reality, the optimisation gains are entirely inconsequential regardless of the
 size of the data.
