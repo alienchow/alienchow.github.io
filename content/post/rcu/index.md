@@ -84,7 +84,7 @@ type SimpleMutexConfigs struct {
 func(c *SimpleMutexConfigs) Update(newConfigs map[string]bool) {
 	c.m.Lock()
 	defer c.m.Unlock()
-	
+
 	c.configs = map[string]bool{}
 	for k, v := range newConfigs{
 		c.configs[k] = v
@@ -356,20 +356,20 @@ BenchmarkAtomicRCU/Update_Large_Config_seldom-8            	 4470870	       264.
 
 --Distribution benchmarks (nanoseconds)--
 
-Simple Mutex - Update Small Config frequent         	P50:137            P90:32882          P99:289197         Max:2519006        
-Pseudo RCU - Update Small Config frequent           	P50:133            P90:31640          P99:226916         Max:1513739        
-Atomic RCU - Update Small Config frequent           	P50:84             P90:134            P99:207            Max:26497          
+Simple Mutex - Update Small Config frequent         	P50:137            P90:32882          P99:289197         Max:2519006
+Pseudo RCU - Update Small Config frequent           	P50:133            P90:31640          P99:226916         Max:1513739
+Atomic RCU - Update Small Config frequent           	P50:84             P90:134            P99:207            Max:26497
 
-Simple Mutex - Update Small Config seldom           	P50:105            P90:173            P99:281            Max:43536          
-Pseudo RCU - Update Small Config seldom             	P50:107            P90:174            P99:273            Max:24992          
-Atomic RCU - Update Small Config seldom             	P50:59             P90:123            P99:205            Max:7940           
+Simple Mutex - Update Small Config seldom           	P50:105            P90:173            P99:281            Max:43536
+Pseudo RCU - Update Small Config seldom             	P50:107            P90:174            P99:273            Max:24992
+Atomic RCU - Update Small Config seldom             	P50:59             P90:123            P99:205            Max:7940
 
-Simple Mutex - Update Large Config frequent         	P50:350            P90:523505         P99:1243037        Max:5655489        
-Pseudo RCU - Update Large Config frequent           	P50:103            P90:147            P99:475            Max:1549957        
-Atomic RCU - Update Large Config frequent           	P50:71             P90:101            P99:182            Max:6320           
+Simple Mutex - Update Large Config frequent         	P50:350            P90:523505         P99:1243037        Max:5655489
+Pseudo RCU - Update Large Config frequent           	P50:103            P90:147            P99:475            Max:1549957
+Atomic RCU - Update Large Config frequent           	P50:71             P90:101            P99:182            Max:6320
 
-Simple Mutex - Update Large Config seldom           	P50:110            P90:172            P99:282            Max:282293         
-Pseudo RCU - Update Large Config seldom             	P50:108            P90:166            P99:269            Max:8000           
+Simple Mutex - Update Large Config seldom           	P50:110            P90:172            P99:282            Max:282293
+Pseudo RCU - Update Large Config seldom             	P50:108            P90:166            P99:269            Max:8000
 Atomic RCU - Update Large Config seldom             	P50:69             P90:125            P99:204            Max:9743
 ```
 
