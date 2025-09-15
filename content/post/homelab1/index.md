@@ -2,6 +2,14 @@
 date = '2025-09-15T00:46:47+08:00'
 draft = false
 title = 'Project Homelab - Part 1: Laying the Foundation'
+categories = ['Homelab']
+tags = [
+    'homelab',
+    'networking',
+    'fibre',
+    'fiber',
+    'renovation',
+]
 +++
 
 # Fooling Around with a Future-Proof Home Network
