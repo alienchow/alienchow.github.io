@@ -1,0 +1,47 @@
++++
+date = '2025-09-15T00:46:47+08:00'
+draft = false
+title = 'Project Homelab - Part 1: Laying the Foundation'
++++
+
+Around early 2022, I finally received the keys to my [BTO](https://en.wikipedia.org/wiki/Build_to_order_(HDB)) flat in Singapore. The whole construction project was delayed by a year due to COVID-19, resulting in a total wait time of 5 years. As our family was still residing in Switzerland back then, we flew back to Singapore for 6 weeks just to deal with planning the renovations.
+
+![Absolutely bare flat](barebones.jpg)
+
+As shown in the photo, there was absolutely nothing. We had opted out of all of the government-offered packages in order to design our new home from scratch. This gave me the very rare opportunity of planning my home network infrastructure exactly the way I wanted it. For those not in the know, all HDB flats built after 2014 come with built-in Cat 6 Ethernet wiring. It connects the entrance shoe cabinet, housing the [DB box](https://en.wikipedia.org/wiki/Distribution_board), to every single room in the house. These cables are buried inside the concrete and rebars and very much capped at 10Gbps in the best case scenario. In most of my real world usage, I have only been able to get it to function at 1Gbps, since I can't control the crosstalk interference and unknown cable lengths that HDB has provided.
+
+To be fair, normal home network usage doesn't need anything beyond 1Gbps. But the rationale for wanting a homelab has never really been about practicality anyway. This is one of those things where "because I can" precedes the "why".
+
+---
+
+**And I wanted something that is truly future proof.**
+
+---
+
+Since I had been following the [fibre blog posts](https://michael.stapelberg.ch/posts/tags/fiber/) from Michael Stapelberg, I came to the conclusion that a truly future proofed home network had to be based on optic fibre. The biggest obstacle I faced was my inherent lack of knowledge of networking at this point. Supplementing my lacking networking knowledge was partially the reason I wanted to get serious about building up a home lab. I understood the bandwidth limits of Ethernet cable categories, what Wi-Fi mesh is, DNS lookups, difference between a router and switch, and used VLANs on my ASUS router to segregate IoT devices. I could calculate CIDR ranges in my head and knew the very basics of `iptable` in Linux to setup rudimentary firewalls.
+
+And... that's about it.
+
+This was 2022 when LLM AI tools didn't readily exist and Google Bard wasn't even a thing. Everything had to be learnt from pure Google-Fu and bugging random people for advice. I sent Michael a series of messages asking for guidance on what I needed to know before installing random fibre cables inside my house. Being the awesome person that he is, he replied me on internal Google Chat with lots of detailed explanations. His recommendations could be summarised into:
+
+* The connectors don't really matter because there are adapters. However, I can't really go wrong with Duplex LC/UPC connectors.
+* Go with [Simple Mode Fibre](https://en.wikipedia.org/wiki/Single-mode_optical_fiber) (SMF, specifically [OS2](https://www.fs.com/uk/blog/comparison-between-os1-and-os2-smf-cables-2696.html)) for it will be able to support any kinds of bandwidth the future has to offer. The catch is that I may have to purchase attenuators for them.
+* Get "bend-insensitive" fibre cables.
+* If I am going to be laying fibre cables inside the walls and floors, I may as well add a pull string to add more cables in future.
+* Duplex cables are simply pulling 2 separate fibre cables. I should go with that to allow redundancy. In future if I wanted more connections out of the same port, I could split the duplex connectors up and use Bi-Directional (BiDi) transceivers.
+
+Now, the above largely made no sense to nooby me. I was way out of my depth on this matter, so I just went with everything he suggested, even going with FS.com for all my fibre equipment purchases like he did. The only thing I did different was to adopt the Ubiquiti ecosystem, which I'll go into detail later on.
+
+But first, I needed to obtain a copy of the floor plan of my new home. This can be purchased online from the [Housing Development Board](https://services2.hdb.gov.sg/webapp/BC31ISOP2/BC31SMain). I must say that it is weird that we Singaporeans spend hundreds of thousands of dollars on a public housing unit but the floor plan comes separate; it's like buying an appliance without the instruction manuals. Since the floor plan is probably subject to copyright, I won't be uploading it here. Instead, here's an adapted version of it that my interior designer came up with.
+
+![Floor plan](floorplan.jpg)
+
+Eventually, I decided on the following networking plan:
+
+![Initial networking plan](initial-network.jpg)
+
+If anyone is wondering what the bomb shelter is, it is a requirement by the government to provide air raid shelters within all public housing constructed since 1997. I presume any Swiss readers won't be too surprised by this setup. Alas, the truth is, the vast majority of HDB flat owners use it as a storeroom and would be hard pressed to house their entire family inside during an emergency. For me, I've decided to use it to house my server equipment.
+
+It comes installed with 2 round air vents, which made it convenient for me pull networking cables into the shelter to use it as my network gateway room. The original plan was to install ventilation fans on both vents to circulate the air within the shelter in order to deal with the equipment heat. But the installers advised that due to my renovation design, the false ceilings that would help with concealing the cabling would equally make air exchange ineffective. As such, the bomb shelter is now "passively" vented. As in, as the air around my gateway device heats up, it rises up and exits the vent.
+
+
