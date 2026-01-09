@@ -2,7 +2,7 @@
 date = '2026-01-10T00:47:29+08:00'
 draft = false
 title = 'Back Strain is Gone'
-category = ['life']
+categories = ['life']
 tags = ['life', 'family']
 +++
 
