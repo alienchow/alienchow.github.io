@@ -13,6 +13,14 @@ tags = [
 ]
 +++
 
+---
+> Thanks HN folks for all the comments. To clarify a bit, the cables are pulled through PVC conduits under the flooring before being buried in cement. Currently the hypothesis for why the cable disintegrated so quickly is hydrolysis. Singapore is extremely humid after all. A second possibility is that I keep the leftover wall paints ([Nippon Paint Vinilex 5000](https://nipponpaint.com.sg/product/vinilex-5000/)) in the same room and have noticed that much of the solvents have evaporated. It is possible that the solvents in the air might have caused the cable to fail in 3 years. The other ends of the cables don't feel as sticky and crumbly despite being out in the open exposed to the humidity. My guess is that the paint solvent got to it. 
+
+> Some other learnings from this. Buried cabling should always be permanently fixed and attached to a patch panel instead of dangling in the open. That was the original plan but I figured it wouldn't be an issue. I was wrong. Always measure exact length of buried fibre cabling as they aren't meant to be stored in loops.
+---
+
+## Original Post
+
 This morning I woke up and headed to my bomb shelter to grab the bike pump to inflate the tyres on my children's bikes. The handle got slightly tangled up in the fibre optic cables so I lifted up the cables to free the pump.
 
 Like cookie crumbs the fibre cable's sleeve jackets crumbled in my hands.
