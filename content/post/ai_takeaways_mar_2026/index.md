@@ -99,7 +99,7 @@ If a senior SRE who had been burnt way too many times for reckless, unverified d
 
 SLOs? Error budgets? Verify before deploy? Production Readiness Review (PRR)?  A/B testing? **Get that out of here.** Use AI AI AI to speed up the output delivery. At the first sight of a mirage of productivity, `cautious AI adoption` gives way to `adopt AI at all costs`.
 
-Everyone must no longer apire to be T-shaped normies. The meta is now a horizontal, thick, fat I-shaped engineer. AI hath giveth thee all means to gain knowledge in any field, there's no longer any excuse to not have adequate knowledge in everything and deliver output on all fronts.
+Everyone must no longer aspire to be T-shaped normies. The meta is now a horizontal, thick, fat I-shaped engineer. AI hath giveth thee all means to gain knowledge in any field, there's no longer any excuse to not have adequate knowledge in everything and deliver output on all fronts.
 
 Pragmatically, however, I think the realistic outcome has been **Serrated-shape Engineers**:
 > **People with broad, spontaneous, mid-level understanding of a subject just enough to appear to get something done, but also just enough to accidentally cut themselves.**
