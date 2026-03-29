@@ -1,24 +1,18 @@
 +++
 date = '2026-03-21T14:45:48+08:00'
 draft = true
-title = 'AI Hot Takes From A Rando'
+title = 'AI Hot Takes From A Platform Engineer / SRE'
 +++
 
 A blip appeared on my phone while I was on the treadmill last week, it was yet another LinkedIn post talking about the wonderful value AI has brought upon us. Day after day, anywhere I look, I have to sit through opinions that are exuberantly optimistic. Yet all examples given are always tiny tools, and I have yet to see a real-world example of agentic usage in production critical systems that hasn't gone wrong, or at best underperforming.
 
-Don't get me wrong, I extensively derive value from the use of AI and I do enjoying using coding agents for prototypes, tools and debugging. But there needs to be some real-world practitioner pushback on some of the overt optimism to ground the context of hallucinating AI-optimists.
+Don't get me wrong, I derive extensive value from the use of AI and I do enjoy using coding agents for prototypes, tools and debugging. But I sense a disconnect between what the AI evangelists say, and what I experience first hand. We need some pragmatic counterbalance to ground some of the marketing fluff in reality.
 
-So here are some of my hot takes on the current state of AI.
+So here are some of my hot takes on the current state of AI, March 2026.
 
 ## Hot Take 1: Anything In Public Can Be Learnt If You Want To
 
 With AI Big Tech currently heavily subsidising our freely accessible usage of sequence guessing generators, everyone is able to to skip right past the `data organisation` and `accessibility` phases of [organising the world's information and making it universally accessible and useful to ourselves](https://www.google.com/intl/en_uk/search/howsearchworks/our-approach/). The chatbots are now capable enough to do JIT search MCP, so we can worry less about recency of information.
-
----
-
-{{< img src="ai_takeaways_mar_2026/babble_lib.jpg" alt="Library of Babble" >}}
-
----
 
 During my bus rides, I'd use Gemini Deep Research to do a deep dive on stuff like "Latest Trends in Incident Management, Anchored to March 2026" to keep up with the latest industry practices. This would provide me with adequate entertainment on my 22km commute, which is otherwise an inexplicably 1h40m long, excruciating bus journey home. If anything in the generated article feels incredulous, I would pull out my dusty Google-fu and fact check the information.
 
@@ -26,7 +20,15 @@ During my bus rides, I'd use Gemini Deep Research to do a deep dive on stuff lik
 
 Some of my teammates have asked how I know so much about everything. The secret is to make up custom content to read so I can learn whatever I want. Did you know that ZZ plants remove access water by crying out of their leaves via a process called [guttation](https://en.wikipedia.org/wiki/Guttation)? I became a ZZ plant horticulturist for a very brief 5 minutes one day. 
 
-Another great example of learning via AI is when I uploaded the Japanese user manual for my Casio Oceanus into NotebookLM and was able to ask about how to fix the misaligned minute hand in English. One of my team members also became an expert on his own personal health insurance details by uploading the insurance policy PDF to AI. There are no longer any excuses to not know everything in at least a half-assed manner while having the option to go transiently deep. We have in our hands the ultimate tool, a **Library of** ~~Babel~~**Babble**, to teach us whatever we want.
+Another great example of learning via AI is when I uploaded the Japanese user manual for my Casio Oceanus into NotebookLM and was able to ask about how to fix the misaligned minute hand in English. One of my team members also became an expert on his own personal health insurance details by uploading the insurance policy PDF to AI. There are no longer any excuses to not know everything in at least a half-assed manner while having the option to go transiently deep.
+
+---
+
+{{< img src="ai_takeaways_mar_2026/babble_lib.jpg" alt="Library of Babble" >}}
+
+---
+
+We have in our hands the ultimate tool, a **Library of** ~~Babel~~**Babble**, to teach us whatever we want.
 
 ## Hot Take 2: Because Of AI, It's Now Okay To Ignore AI Trends
 
@@ -40,7 +42,9 @@ The new paradigm of learning presented in HT1 above means that I really don't ne
 
 The sheer amount of AI generated rebranding of remakes of reinvented concepts is impossible to keep up with.
 
-Recently I commented about agentic orchestration being non-deterministic workflows that would hallucinate even on data fetched via RAG. The response I got wasn't focused on the remark about stochasticism, but instead was about how my knowledge was outdated because RAG has been deprecated. This puzzled me because I thought RAG was about retrieving data from different static/dynamic sources not within the trained model to give a more relevant output. You know, to **Retrieve** data for **Augmenting Generated** text. But allegedly that definition had changed, and it solely means retrieval of static data from a vector database now. **RAG [Nigoki](https://evangelion.fandom.com/wiki/Evangelion#:~:text=Nigoki)** is now JIT-Search-Grounding, or DeepRAG, or whatever newly coined terminology to describe retrieving live or dynamic data. This is just one example of a few scenarios where I've found people in this industry inventing new words to claim naming rights to a subset of otherwise straightforward concepts. These are the same people who, when explaining to laymen, seem incapable of conveying ideas and prefer authority through obfuscation.
+Recently I commented about agentic orchestration being non-deterministic workflows that would hallucinate even on data fetched via RAG. The response I got wasn't focused on the remark about stochasticism, but instead was about how my knowledge was outdated because RAG has been deprecated. This puzzled me because I thought RAG was about retrieving data from different static/dynamic sources not within the trained model to give a more relevant output. You know, to **Retrieve** data for **Augmenting Generated** text. But allegedly that definition had changed, and it solely means retrieval of static data from a vector database now.
+
+**RAG [Nigoki](https://evangelion.fandom.com/wiki/Evangelion#:~:text=Nigoki)** is now JIT-Search-Grounding, or DeepRAG, or whatever newly coined terminology to describe retrieving live or dynamic data. This is just one example of a few scenarios where I've found people in this industry inventing new words to claim naming rights to a subset of otherwise straightforward concepts. These are the same people who, when explaining to laymen, seem incapable of conveying ideas and prefer authority through obfuscation.
 
 ---
 
@@ -72,15 +76,15 @@ Everything you know about AI workflows now will be redundant in no time, while t
 
 ## Hot Take 3: Output Has Won the Output-vs-Resiliency Mindshare, For Now
 
-Outcomes are valued now, not the process. The destination (AI workflows must be in everything) has already been decided, the method of execution does not matter. If the outcome is not delivered, blame the process and blame the skill.
+Outputs are valued now, not the process. The outcome (AI workflows must be in everything) has already been decided, the method of execution does not matter. If the outcome is not delivered, blame the process and blame the skill.
 
 Vibe coded software leading to [more security vulnerabilities](https://escape.tech/blog/methodology-how-we-discovered-vulnerabilities-apps-built-with-vibe-coding/)? It's the engineer's fault for not putting in proper guardrails. Coding agents inventing new specifications not documented in SPEC.md or AGENTS.md? It's the engineer's fault for not writing better MD files. Agents going rogue and executing tasks it's not supposed to? It's the engineer's fault for not keeping a negative constraint MD file which may as well be asking to prove a negative.
 
 When an AI integration project works out, the value of AI is vindicated. If the project fails to deliver, engineers have an AI skill issue. It is always the engineers' fault for not rethinking their SDLC workflows to rein in the hallucinations. Surely they must have been shoehorning AI into everyday tasks and not reinventing Agentic Experience (AX™). Adapt or get left behind. May the best context engineer win. 
 
-Or maybe, the DevEx of agentic coding just sucks. Don't get me wrong. I, too, enjoy slopping away on Claude Code making nifty little apps that convert my file formats and parse my bank statements.
+> **Or maybe, the DevEx of agentic coding just sucks.**
 
-But trying to go beyond a small scope quickly reduces the process into a painful juggling of Markdown files and anger management.
+I, too, enjoy slopping away on Claude Code making nifty little apps that convert my file formats and parse my bank statements. But trying to go beyond a small scope quickly reduces the process into a painful juggling of Markdown files and anger management.
 
 1. I enjoy writing documentation, but writing transient Markdown files is pure agony.
 2. Swearing at an agent just pollutes the context so I can't even be afforded some catharsis.
@@ -93,14 +97,12 @@ But trying to go beyond a small scope quickly reduces the process into a painful
 
 If a senior SRE who had been burnt way too many times for reckless, unverified deployments asks for more qualitative and quantitative measurements of the efficacy of a newly pushed AI platform or tool, they are the heretics living in the past. Old school. Unimaginative. Getting in the way of innovation. They must be reformed into rethinking reliability as a negotiable attribute tolerant of stochastic outcomes. [Incidents](https://www.thestack.technology/mckinsey-ai-agent-hacked-lilli/) [are](https://www.kaspersky.com/blog/openclaw-vulnerabilities-exposed/55263/) [a](https://www.coderabbit.ai/blog/state-of-ai-vs-human-code-generation-report) [byproduct](https://www.tomshardware.com/tech-industry/artificial-intelligence/amazon-calls-engineers-to-address-issues-caused-by-use-of-ai-tools-report-claims-company-says-recent-incidents-had-high-blast-radius-and-were-allegedly-related-to-gen-ai-assisted-changes) [of](https://www.hacktron.ai/blog/hacking-cloudflare-vinext) [necessary progress](https://www.pcmag.com/news/amazon-links-2-aws-outages-to-autonomous-kiro-ai-coding-agent).
 
-SLOs? Error budgets? Verify before deploy? Production Readiness Review (PRR)?  A/B testing? **Get that out of here.** Use AI AI AI to speed up the output delivery. The words say "cautious adoption", the actions say "adopt at all costs".
+SLOs? Error budgets? Verify before deploy? Production Readiness Review (PRR)?  A/B testing? **Get that out of here.** Use AI AI AI to speed up the output delivery. At the first sight of a mirage of productivity, `cautious AI adoption` gives way to `adopt AI at all costs`.
 
 Everyone must no longer apire to be T-shaped normies. The meta is now a horizontal, thick, fat I-shaped engineer. AI hath giveth thee all means to gain knowledge in any field, there's no longer any excuse to not have adequate knowledge in everything and deliver output on all fronts.
 
 Pragmatically, however, I think the realistic outcome has been **Serrated-shape Engineers**:
-> People with broad, spontaneous, mid-level understanding of a subject just enough to appear to get something done, but also just enough to accidentally cut themselves.
-
-With that said, I do sense that the tide is slowly changing as the number of AI-related incidents mount. May we all gain some level of sanity again.
+> **People with broad, spontaneous, mid-level understanding of a subject just enough to appear to get something done, but also just enough to accidentally cut themselves.**
 
 
 ## Hot Take 4: Agentic SREs Will Not Save You
@@ -117,7 +119,7 @@ In fact, he plans to skip right past data federation and jump straight to "feder
 >
 > Given the enormous amount of heterogeneous workloads and tooling in a large organisation, demanding every single team to deploy an autoinstrumented OTel Collector is every SRE's political nightmare. Some teams might use Stackdriver, some might use Cloudwatch. On-premise deployments may already be using Splunk, Dynatrace, LGTM stack, Clickstack or something else. Some teams might still be SSH-ing into VMs to look at /var/log with no understanding of metrics or traces. During incidents, the Incident Commander would have to rely entirely on the word of engineers within each team to figure out which rollout is causing the outage, and humans lie. Ideally, the SRE organisation would work out a multi-year deal with the CIO to enforce unification of telemetry, but this very rarely happens.
 > 
-> A common solution would be to carry out an uphill push to onboard tenants to a central observability platform that would take so long that the platform tools became obsolete before 20% of the organisation was onboarded. The obstacles are always workflow habits (dashboards and monitors), data migration, data classification access policies and pure inertia, and trying to sort this out team by team makes it incredibly tedious. The only method that I have seen work out is to have the C-suite, either the CIO or CFO, mandate the data unification by a hard deadline. But I have never observed this done outside of Google, and even with this mandate, the Google P2020 team still met with so much resistance along the way.
+> A common solution would be to carry out a Sisyphean push to onboard tenants to a central observability platform while negotiating requirements team by team. By the time 20% of the fleet is onboarded, the platform tooling is already obsolete. The obstacles are always workflow habits (dashboards and monitors), data migration, data classification, access policies, and pure inertia. Trying to sort this out team by team makes it incredibly MxN tedious. The only method that I have seen work out is to have the C-suite, either the CIO or CFO, mandate the data unification by a hard deadline. But I have never observed this done outside of Grab and Google. Even with this mandate, the Google P2020 team still met with so much resistance along the way.
 
 ---
 
@@ -137,7 +139,7 @@ The only real value that LLMs would provide in such circumstances is the interpr
 
 No one needs GPUs crunching CUDA cores to tell them that the rollout 5 minutes before the outage needs to be rolled back. Deterministic canary automation tools like [Flagger](https://flagger.app/) has solved this eons ago in a far more compute efficient manner.
 
-**If the data is already there.**
+**If... the data is already there.**
 
 ### Problem: Agentic SRE Does Not Solve The Real Everyday Issues Of The Average Organisation
 
@@ -175,7 +177,9 @@ If AI coding companies truly think that their tools are the absolute shizzle, wh
 
 But the fact is that the developers for the exact same tools they are selling, don't believe enough in it to write code that they trust. Despite telling everyone that all you need is proper agent orchestration with agentic roles for PM, EM, SWE, SRE, DevOps to work with each other crunching millions of tokens per hour, these companies don't actually practise what they preach. If they did, you'd be running Claude Code developed in Golang.
 
-> I do have to say that the most optimum agentic coding language is Golang. It's simple, performant, memory efficient, portable, and vibe-coding friendly in the sense that the compile times are faster than Typescript's Golang-powered transpile time. It does crunch more tokens than logic dense dynamic languages, but anecdotally hallucinates way less. I tried vibe coding with Rust but the LLVM compile time is way too painful for my high frequency 777 dopamine fix.
+> **I do have to say that the most optimum agentic coding language is Golang.**
+
+It's simple, performant, memory efficient, portable, and vibe-coding friendly in the sense that the compile times are faster than Typescript's [Golang-powered](https://devblogs.microsoft.com/typescript/typescript-native-port/) transpile time. It does crunch more tokens than logic dense dynamic languages, but anecdotally hallucinates a lot less. I tried vibe coding with Rust but the LLVM compile time is way too painful for my high frequency 777 dopamine fix. Zig had far too many breaking changes between versions and suffers from the same LLVM compile times.
 
 ## Hot Take 6: The Moat For Enterprise Software Is Going To Be Documentation
 
@@ -189,12 +193,76 @@ Yes, one-trick tools have become a thing of the past, there is no doubt about th
 
 These things used to be passion projects by internet strangers. We would visit suspicious looking websites selling `PDF2MSDoc.exe` and pay money just to fix a file sharing issue. Now, I just tell Claude Code what I need and I get a half-hearted prototype that works just well enough.
 
+---
+
+{{< img src="ai_takeaways_mar_2026/slop.jpg" alt="replicator slop" >}}
+
+---
+
 > **Coding agents are like the [Replicator](https://en.wikipedia.org/wiki/Replicator_(Star_Trek)) in Star Trek: You can make anything you want, it just doesn't taste as good.**
 
 Enterprise software, however, isn't so much about providing a single feature you want. Companies buy enterprise support not solely for the premium feature sets, but also for the liability. When your vibe coded platform implodes in the middle of the night, who is going to be there to debug and fix the issue of what is essentially a brownbox slop fest? No, companies buy enterprise support so that they have domain experts to page when things go south. Companies buy enterprise support to ensure compliant system integrations spanning more than 1 context are carried out without a hitch.
 
-Given that LLMs with RAG make searching through technical documentation far easier, a likely outcome for enterprise software is the gatekeeping of documentation. This is to prevent the common SWE from easily becoming a domain expert and replacing their value proposition. Forget about community OSS versions that people can easily fork and extend features using agents. Companies are now going to build a BSL moat around all of their software and enshittify the publicly available docs. Want our most updated documentation? Buy our technical support and you can read it through our specially crafted AI agent.
+Given that LLMs with RAG make searching through technical documentation far easier, a likely outcome for enterprise software is the gatekeeping of documentation. This is to prevent the common SWE from easily becoming a domain expert and replacing their value proposition. Forget about community OSS versions that people can easily fork and extend features using agents. Companies are now going to build new licensing models targeted at [agentic cloning](https://malus.sh/), or dig a closed source moat around all of their software while enshittifying the publicly available docs. Want our most updated documentation? Buy our technical support and you can read it through our specially crafted AI agent.
+
+## Hot Take 7: AI Can't Do Infrastructure
+
+This was surprising to me.
+
+I had assumed that declarative Infrastructure-as-Code would be one of the easiest things for coding agents to figure out. HCL and YAML manifests have barely any fancy logic to them, and are designed to be verbose while explicit. I assumed wrong.
+
+While I am not quite certain of the reasons, I have a few guesses.
+
+### The Lack of Logic Makes It Hard for Agents to Estimate the Intention
+
+Even within the small context of spinning up a VPC and allocating CIDR ranges to several subnets, agents would generate syntactically correct manifests that don't render the outcome requested. The developer would have to imbue meaning into each of the manifest clauses so that the NLP can interpret what needs to be done. But the training data on Github doesn't provide the same context density that programming languages do (`onStateUpdate` has the meanings `upon`, `state change of parent`, `callback` whereas `vpc main` is just a main VPC), so it may be difficult for agents to correlate intent with outcome.
+
+The inherent low density of context in IaC also means it is token inefficient as well. Integrating more than 2 subsystems may as well be solving a three-body problem for the limited context windows for LLMs.
+
+### The Infrastructure Space is Full of Forks and Sprawling Providers that Do Similar Things
 
 ---
 
-So that about sums up 6 of my AI hot takes. In the meantime, I advise people who are absolutely peeved about the mass of AI shovelware to just tune it out and use what works for you. If anyone preaches about adopting more AI, ask them for a practical demo before buying into the sales pitch. Talk and build are easy, real-world day-2 maintenance is hard.
+{{< img src="ai_takeaways_mar_2026/tofubao.jpg" alt="ppap tofubao" >}}
+
+---
+
+This is a recurring issue within the team I lead. The platform engineers that consult with LLM chatboxes or coding agents frequently find themselves sent down a rabbit hole into the abyss of hallucinations. Agents would regularly make up realistic sounding flag arguments and waste tokens retrying different permutations of the same non-existent, never existed flags. If you're using forked tools like OpenBao and OpenTofu, it will invent cross-breed features that exist in neither the fork nor the parent about half the time. 80-90% of the time it confuses features between the fork and the source, quoting technical documentation that doesn't exist.
+
+If adopting IaC providers, agents would get bamboozled by different community providers doing similar functions because it somehow assumes all providers for the same infrastructure resource are one and the same. Another behaviour I would see is the agent attempting to use enterprise premium features and just give up when it fails. "Oh yeah I guess you have to pay now."
+
+> **Attempting to use agents to brute force the enterprise integrations is an exercise in futility when all of the technical documentation for enterprise specific features are locked behind a paywall, so the literature doesn't exist in the model nor is it available for RAG.**
+
+### Lack of a Feedback Loop
+
+While testing code is as easy as `go test ./...`, testing infrastructure costs a lot of money. Agentic infrastructure testing is both costly and extremely risky.
+
+The responsible method is to create an isolated environment and give the agent restrictive access controls to test out its configurations in a loop. But we all know that by the 10th time the agent fails due to restrictive IAM policies, we'd probably be switching to `Allow "*"` in its own cloud account. And that could easily result in runaway bills that explode our budget.
+
+One alternative I have tried is to run local machine Kubernetes clusters and just let the coding agents go nuts. I would swap in Opus 4.6, Sonnet 4.6, Gemini Pro 3.1 to test the results. After a week of 7-8 context compactions and millions of tokens, here're the observations:
+* They all failed to deliver anything beyond single cluster integrations and heavily preferred cli over Helm.
+* They would beg to negotiate on the specifications. "[I'm le tired](https://www.youtube.com/watch?v=kCpjgl2baLs). Why do multi-cluster when 1 cluster do trick?"
+* They would give up after a while and say yeah okay there's no way this can be done.
+* Local Kubernetes clusters behave differently from production clusters so the output isn't always usable.
+* Infrastructure turn up time is slow, so most of the cycles are wasted on waiting.
+* The goto method to debug their configurations is always to nuke all of the clusters and rebuild from scratch.
+
+---
+
+{{< img src="ai_takeaways_mar_2026/k8sboom.jpg" alt="kube nukem" >}}
+
+---
+
+I believe that infrastructure has one extra layer of isolation and delay between the agent's actions and actuation that's causing the agents to struggle. Perhaps the AI companies would like to release more targeted models for the IaC crowd in future.
+
+---
+
+## End of Ramble
+
+---
+
+{{< img src="ai_takeaways_mar_2026/lazyart.jpg" alt="i can't draw" >}}
+
+---
+
+So that about sums up my AI hot takes. In the meantime, I advise people who are absolutely peeved about the mass of AI shovelware to just tune it out and use what works for you. If anyone preaches about adopting more AI, ask them for a practical demo before buying into the sales pitch. Talk and build are easy, real-world day-2 maintenance is hard.
