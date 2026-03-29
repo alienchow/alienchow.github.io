@@ -1,6 +1,6 @@
 +++
-date = '2026-03-21T14:45:48+08:00'
-draft = true
+date = '2026-03-29T12:26:48+08:00'
+draft = false
 title = 'AI Hot Takes From A Platform Engineer / SRE'
 +++
 
