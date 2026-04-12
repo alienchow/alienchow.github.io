@@ -18,7 +18,7 @@ During my bus rides, I'd use Gemini Deep Research to do a deep dive on stuff lik
 
 > *Although... I can no longer tell if LLMs are becoming more accurate, or I'm fact checking less, or the LLMs are hallucinating more convincingly now.*
 
-Some of my teammates have asked how I know so much about everything. The secret is to make up custom content to read so I can learn whatever I want. Did you know that ZZ plants remove access water by crying out of their leaves via a process called [guttation](https://en.wikipedia.org/wiki/Guttation)? I became a ZZ plant horticulturist for a very brief 5 minutes one day. 
+Some of my teammates have asked how I know so much about everything. The secret is to make up custom content to read so I can learn whatever I want. Did you know that ZZ plants remove excess water by crying out of their leaves via a process called [guttation](https://en.wikipedia.org/wiki/Guttation)? I became a ZZ plant horticulturist for a very brief 5 minutes one day. 
 
 Another great example of learning via AI is when I uploaded the Japanese user manual for my Casio Oceanus into NotebookLM and was able to ask about how to fix the misaligned minute hand in English. One of my team members also became an expert on his own personal health insurance details by uploading the insurance policy PDF to AI. There are no longer any excuses to not know everything in at least a half-assed manner while having the option to go transiently deep.
 
