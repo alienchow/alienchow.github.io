@@ -1,0 +1,11 @@
+<div class="i18n-tabs">
+    <div class="tabs-header">
+        {{ .Inner }}
+    </div>
+    {{ $scratch := .Scratch }}
+    {{ range $index, $element := $scratch.Get "tabs" }}
+        <div class="tab-content" id="tab-content-{{ $index }}">
+            {{ $element.content | markdownify }}
+        </div>
+    {{ end }}
+</div>

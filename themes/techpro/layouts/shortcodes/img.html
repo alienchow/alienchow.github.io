@@ -1,0 +1,9 @@
+{{- $src := printf "images/%s" (.Get "src") -}}
+{{- $width := .Get "width" -}}
+{{- $height := .Get "height" -}}
+{{- $alt := .Get "alt" -}}
+
+<figure>
+    <img src="{{ .Site.BaseURL }}{{ $src }}" {{ with $width }}width="{{ . }}"{{ end }} {{ with $height }}height="{{ . }}"{{ end }} alt="{{ $alt }}" loading="lazy">
+    {{ with $alt }}<figcaption>{{ . }}</figcaption>{{ end }}
+</figure>

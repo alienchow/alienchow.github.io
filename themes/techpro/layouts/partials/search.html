@@ -1,0 +1,190 @@
+<div id="search-modal" class="search-modal">
+    <div class="search-container fade-in">
+        <header class="search-header">
+            <input type="text" id="search-input" placeholder="Search posts..." aria-label="Search" autocomplete="off">
+            <button id="close-search" class="icon-btn" aria-label="Close search">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </header>
+        <div id="search-results" class="search-results">
+            <!-- Results will be injected here -->
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import Fuse from 'https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.mjs';
+
+    let fuse = null;
+    let searchData = null;
+
+    const searchBtn = document.getElementById('search-btn');
+    const searchModal = document.getElementById('search-modal');
+    const closeSearch = document.getElementById('close-search');
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+
+    async function initSearch() {
+        if (!searchData) {
+            try {
+                const response = await fetch('{{ site.BaseURL }}index.json');
+                searchData = await response.json();
+                
+                const options = {
+                    keys: ['title', 'content', 'tags', 'categories'],
+                    includeMatches: true,
+                    threshold: 0.3,
+                    minMatchCharLength: 2
+                };
+                fuse = new Fuse(searchData, options);
+            } catch (err) {
+                console.error('Failed to load search index', err);
+            }
+        }
+    }
+
+    function openSearch() {
+        searchModal.classList.add('active');
+        searchInput.focus();
+        initSearch();
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+    }
+
+    function hideSearch() {
+        searchModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    searchBtn.addEventListener('click', openSearch);
+    closeSearch.addEventListener('click', hideSearch);
+    searchModal.addEventListener('click', (e) => {
+        if (e.target === searchModal) hideSearch();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && searchModal.classList.contains('active')) hideSearch();
+        // Keyboard shortcut cmd/ctrl + k
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            openSearch();
+        }
+    });
+
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value;
+        if (!query || !fuse) {
+            searchResults.innerHTML = '';
+            return;
+        }
+
+        const results = fuse.search(query).slice(0, 10);
+        
+        if (results.length === 0) {
+            searchResults.innerHTML = '<div class="no-results">No results found.</div>';
+            return;
+        }
+
+        searchResults.innerHTML = results.map(({ item }) => `
+            <a href="${item.permalink}" class="search-result-item">
+                <div class="search-result-title">${item.title}</div>
+                <div class="search-result-meta">${item.date}</div>
+            </a>
+        `).join('');
+    });
+</script>
+
+<style>
+.search-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(var(--bg-primary-rgb), 0.8);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 10vh;
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transition);
+}
+
+.search-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.search-container {
+    width: 100%;
+    max-width: 600px;
+    background-color: var(--bg-glass-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    transform: translateY(-20px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.search-modal.active .search-container {
+    transform: translateY(0);
+}
+
+.search-header {
+    display: flex;
+    align-items: center;
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--border);
+}
+
+#search-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    outline: none;
+    padding: var(--space-sm);
+}
+
+.search-results {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.search-result-item {
+    display: block;
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--border);
+    color: var(--text-primary);
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover {
+    background-color: var(--bg-secondary);
+}
+
+.search-result-title {
+    font-weight: 500;
+    margin-bottom: var(--space-sm);
+}
+
+.search-result-meta {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.no-results {
+    padding: var(--space-md);
+    text-align: center;
+    color: var(--text-secondary);
+}
+</style>

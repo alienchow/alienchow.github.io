@@ -1,0 +1,7 @@
+{{ $lang := .Get "lang" | default "en" }}
+{{ $name := .Get "name" | default (upper $lang) }}
+{{ $content := .Inner }}
+
+{{ .Parent.Scratch.Add "tabs" (slice (dict "lang" $lang "name" $name "content" $content)) }}
+
+<button class="tab-btn" data-lang="{{ $lang }}">{{ $name }}</button>

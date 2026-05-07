@@ -1,0 +1,14 @@
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="social-links">
+                {{ range site.Params.social }}
+                <a href="{{ if eq .id "github" }}https://github.com/{{ .name }}{{ else if eq .id "linkedin" }}https://linkedin.com/in/{{ .name }}{{ else }}#{{ end }}" target="_blank" rel="noopener noreferrer" aria-label="{{ .name }}">
+                    {{ .id }}
+                </a>
+                {{ end }}
+            </div>
+            <p class="copyright">&copy; {{ now.Format "2006" }} {{ site.Title }}. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
