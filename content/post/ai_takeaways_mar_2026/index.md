@@ -2,6 +2,8 @@
 date = '2026-03-29T12:26:48+08:00'
 draft = false
 title = 'AI Hot Takes From A Platform Engineer / SRE'
+categories = ['Technology']
+tags = ['AI', 'SRE', 'Agentic', 'LLM', 'Hot Takes']
 +++
 
 A blip appeared on my phone while I was on the treadmill last week, it was yet another LinkedIn post talking about the wonderful value AI has brought upon us. Day after day, anywhere I look, I have to sit through opinions that are exuberantly optimistic. Yet all examples given are always tiny tools, and I have yet to see a real-world example of agentic usage in production critical systems that hasn't gone wrong, or at best underperforming.
