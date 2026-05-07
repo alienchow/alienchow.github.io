@@ -21,6 +21,23 @@
                 {{ range .Params.tags }}<a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">#{{ . }}</a>{{ end }}
             </div>
             {{ end }}
+
+            {{/* Language tab bar — only rendered when translations exist */}}
+            {{ $translations := .Translations }}
+            {{ if $translations }}
+            <nav class="lang-tabs" aria-label="Available languages">
+                {{/* Current language tab (active) */}}
+                <a class="lang-tab lang-tab--active" href="{{ .RelPermalink }}" aria-current="page">
+                    {{ .Language.LanguageName }}
+                </a>
+                {{/* Other available translations */}}
+                {{ range $translations }}
+                <a class="lang-tab" href="{{ .RelPermalink }}">
+                    {{ .Language.LanguageName }}
+                </a>
+                {{ end }}
+            </nav>
+            {{ end }}
         </header>
 
         <div class="post-content fade-in">
@@ -29,8 +46,8 @@
     </article>
 </div>
 
-<!-- Support for Mermaid if needed -->
-{{ if hasPrefix .Content "mermaid" | or (strings.Contains .Content "class=\"language-mermaid\"") }}
+{{/* Mermaid — load only when page contains a mermaid block */}}
+{{ if strings.Contains .Content "class=\"language-mermaid\"" }}
 <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true, theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default' });

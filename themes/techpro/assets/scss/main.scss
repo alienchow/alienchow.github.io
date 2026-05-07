@@ -152,6 +152,21 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--text);
   opacity: 1;
 }
+.nav .menu a.active {
+  color: var(--accent);
+  font-weight: 600;
+  position: relative;
+}
+.nav .menu a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+}
 
 .header-actions {
   display: flex;
@@ -176,6 +191,27 @@ img { max-width: 100%; height: auto; display: block; }
   background: var(--bg-subtle);
   color: var(--text);
 }
+
+/* Social icon links — same pill as icon-btn but anchor tags */
+.social-icon-btn {
+  color: var(--text-3);
+  text-decoration: none;
+}
+.social-icon-btn:hover {
+  color: var(--text);
+  opacity: 1;
+  background: var(--bg-subtle);
+}
+.social-icon-btn svg { display: block; }
+
+/* Thin separator before search / theme-toggle */
+#search-btn {
+  margin-left: 0.25rem;
+  border-left: 1px solid var(--border);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding-left: 0.6rem;
+}
+#search-btn:hover { border-radius: var(--radius); }
 
 /* =========================================================
    Home / Post List
@@ -307,6 +343,47 @@ img { max-width: 100%; height: auto; display: block; }
   letter-spacing: 0.01em;
 }
 .post-tags a:hover { opacity: 0.8; }
+
+/* =========================================================
+   Language Tabs (translation switcher on single post)
+   ========================================================= */
+.lang-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.lang-tab {
+  display: inline-block;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-3);
+  background: var(--bg-surface);
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.lang-tab:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-light);
+  opacity: 1;
+}
+
+.lang-tab--active {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-light);
+  cursor: default;
+  pointer-events: none;
+}
 
 /* =========================================================
    Post Content Typography
