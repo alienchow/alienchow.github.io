@@ -57,9 +57,16 @@ theme = 'techpro'
 
 [params]
     darkMode = true
+    author = "Alienchow"
+    description = "Engineering notes, homelab adventures & more."
+    mainSections = ["post"]
+    toc = true
+    readingProgress = true
+    backToTop = true
     [[params.social]]
         id = "github"
         name = "alienchow"
     [[params.social]]
         id = "linkedin"
         name = "lianyuanlin"
+

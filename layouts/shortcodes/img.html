@@ -2,5 +2,10 @@
 {{- $width := .Get "width" -}}
 {{- $height := .Get "height" -}}
 {{- $alt := .Get "alt" -}}
+{{- $caption := .Get "caption" | default $alt -}}
 
-<img src="{{ .Site.BaseURL }}{{ $src }}" width="{{ $width }}" height="{{ $height }}" alt="{{ $alt }}">
+<figure class="post-figure">
+    <img src="{{ .Site.BaseURL }}{{ $src }}" {{ with $width }}width="{{ . }}"{{ end }} {{ with $height }}height="{{ . }}"{{ end }} alt="{{ $alt }}" loading="lazy">
+    {{ with $caption }}<figcaption>{{ . }}</figcaption>{{ end }}
+</figure>
+

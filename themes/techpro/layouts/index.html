@@ -5,7 +5,8 @@
         <p class="subtitle">Engineering notes, homelab adventures &amp; more.</p>
     </div>
 
-    {{ $paginator := .Paginate (where site.RegularPages "Type" "in" site.Params.mainSections) }}
+    {{ $mainSections := site.Params.mainSections | default (slice "post" "posts") }}
+    {{ $paginator := .Paginate (where site.RegularPages "Type" "in" $mainSections) }}
     <div class="post-list fade-in">
         {{ range $paginator.Pages }}
         <a href="{{ .RelPermalink }}" class="post-item">
@@ -13,7 +14,7 @@
             <span class="post-item-title">{{ .Title }}</span>
             {{ if .Params.categories }}
             <span class="post-item-tags">
-                {{ range first 1 .Params.categories }}<span class="tag-chip">{{ . }}</span>{{ end }}
+                {{ range first 2 .Params.categories }}<span class="tag-chip">{{ . }}</span>{{ end }}
             </span>
             {{ end }}
         </a>
@@ -22,3 +23,4 @@
     {{ template "_internal/pagination.html" . }}
 </div>
 {{ end }}
+
