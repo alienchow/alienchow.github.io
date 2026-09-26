@@ -1,10 +1,5 @@
 {{ define "main" }}
 <div class="container">
-    <div class="hero fade-in">
-        <h1>{{ site.Title }}</h1>
-        <p class="subtitle">Engineering notes, homelab adventures &amp; more.</p>
-    </div>
-
     {{ $mainSections := site.Params.mainSections | default (slice "post" "posts") }}
     {{ $paginator := .Paginate (where site.RegularPages "Type" "in" $mainSections) }}
     <div class="post-list fade-in">

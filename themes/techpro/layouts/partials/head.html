@@ -8,25 +8,25 @@
 <meta name="author" content="{{ site.Params.author | default site.Title }}">
 <link rel="canonical" href="{{ .Permalink }}">
 
-<!-- Theme Color -->
-<meta name="theme-color" content="#5046e5" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0f1117" media="(prefers-color-scheme: dark)">
+<!-- Theme Color: Pure Black & White with Red Accents -->
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
 
-<!-- Favicon (SVG) -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👽</text></svg>">
+<!-- Favicon: Traditional Character 連 (Lian) Cursive Calligraphy Cinnabar Seal Stamp (SVG) -->
+<link rel="icon" type="image/svg+xml" href="{{ "favicon.svg" | relURL }}">
 
-<!-- Fonts -->
+<!-- Fonts: Classical Serif (Noto Serif, Noto Serif SC), Chinese Calligraphy (Ma Shan Zheng, Yuji Boku), Monospace (Fira Code) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;500;600;700;900&family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Yuji+Boku&display=swap" rel="stylesheet">
 
 <!-- CSS -->
 {{ $style := resources.Get "scss/main.scss" | toCSS | minify | fingerprint }}
-<link rel="stylesheet" href="{{ $style.Permalink }}">
+<link rel="stylesheet" href="{{ $style.RelPermalink }}">
 
 <!-- JS -->
 {{ $mainJs := resources.Get "js/main.js" | js.Build | minify | fingerprint }}
-<script src="{{ $mainJs.Permalink }}" defer></script>
+<script src="{{ $mainJs.RelPermalink }}" defer></script>
 
 <!-- SEO & OpenGraph -->
 {{ template "_internal/opengraph.html" . }}
@@ -48,9 +48,11 @@
 
 
 <script>
-    // Apply theme immediately to avoid flash
+    // Apply theme immediately to avoid flash (supports URL param ?theme=light/dark or localStorage)
     (function() {
-        const saved = localStorage.getItem('theme-preference') || 'auto';
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlTheme = urlParams.get('theme');
+        const saved = urlTheme || localStorage.getItem('theme-preference') || 'auto';
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         if (saved === 'dark' || (saved === 'auto' && prefersDark)) {
             document.documentElement.classList.add('dark');

@@ -55,35 +55,46 @@
             {{ end }}
         </header>
 
-        {{ partial "toc.html" . }}
+        {{- $showToc := and (ne .Params.toc false) (ne site.Params.toc false) (gt .WordCount 150) (strings.Contains .Content "<h2") -}}
+        <div class="post-body-layout {{ if $showToc }}has-toc{{ end }}" id="post-body-layout">
+            <div class="post-main-column">
+                <div class="post-content fade-in">
+                    {{ .Content }}
+                </div>
 
-        <div class="post-content fade-in">
-            {{ .Content }}
+                {{ if eq .Type "post" }}
+                <footer class="post-footer fade-in">
+                    <nav class="post-nav" aria-label="Post navigation">
+                        {{ with .PrevInSection }}
+                        <a class="post-nav-item post-nav-prev" href="{{ .RelPermalink }}">
+                            <span class="post-nav-dir">&larr; Older Post</span>
+                            <span class="post-nav-title">{{ .Title }}</span>
+                        </a>
+                        {{ else }}
+                        <div class="post-nav-item post-nav-empty"></div>
+                        {{ end }}
+
+                        {{ with .NextInSection }}
+                        <a class="post-nav-item post-nav-next" href="{{ .RelPermalink }}">
+                            <span class="post-nav-dir">Newer Post &rarr;</span>
+                            <span class="post-nav-title">{{ .Title }}</span>
+                        </a>
+                        {{ else }}
+                        <div class="post-nav-item post-nav-empty"></div>
+                        {{ end }}
+                    </nav>
+                </footer>
+                {{ end }}
+            </div>
+
+            {{ if $showToc }}
+            <aside class="post-sidebar-column">
+                <div class="sticky-sidebar">
+                    {{ partial "toc.html" . }}
+                </div>
+            </aside>
+            {{ end }}
         </div>
-
-        {{ if eq .Type "post" }}
-        <footer class="post-footer fade-in">
-            <nav class="post-nav" aria-label="Post navigation">
-                {{ with .PrevInSection }}
-                <a class="post-nav-item post-nav-prev" href="{{ .RelPermalink }}">
-                    <span class="post-nav-dir">&larr; Older Post</span>
-                    <span class="post-nav-title">{{ .Title }}</span>
-                </a>
-                {{ else }}
-                <div class="post-nav-item post-nav-empty"></div>
-                {{ end }}
-
-                {{ with .NextInSection }}
-                <a class="post-nav-item post-nav-next" href="{{ .RelPermalink }}">
-                    <span class="post-nav-dir">Newer Post &rarr;</span>
-                    <span class="post-nav-title">{{ .Title }}</span>
-                </a>
-                {{ else }}
-                <div class="post-nav-item post-nav-empty"></div>
-                {{ end }}
-            </nav>
-        </footer>
-        {{ end }}
     </article>
 </div>
 
@@ -94,9 +105,13 @@
     const isDark = document.documentElement.classList.contains('dark');
     mermaid.initialize({ 
         startOnLoad: true, 
-        theme: isDark ? 'dark' : 'default',
+        theme: isDark ? 'dark' : 'neutral',
         themeVariables: {
-            fontFamily: 'Inter, system-ui, sans-serif'
+            fontFamily: "'Noto Serif SC', 'Songti SC', Georgia, serif",
+            primaryColor: isDark ? '#1a1a1a' : '#f7f6f2',
+            primaryTextColor: isDark ? '#f5f5f5' : '#111111',
+            primaryBorderColor: isDark ? '#d93830' : '#b91c1c',
+            lineColor: isDark ? '#888888' : '#333333'
         }
     });
 </script>

@@ -30,8 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 try {
                     mermaid.initialize({
                         startOnLoad: false,
-                        theme: isDark ? 'dark' : 'default',
-                        themeVariables: { fontFamily: 'Inter, system-ui, sans-serif' }
+                        theme: isDark ? 'dark' : 'neutral',
+                        themeVariables: {
+                            fontFamily: "'Noto Serif SC', 'Songti SC', Georgia, serif",
+                            primaryColor: isDark ? '#1a1a1a' : '#f7f6f2',
+                            primaryTextColor: isDark ? '#f5f5f5' : '#111111',
+                            primaryBorderColor: isDark ? '#d93830' : '#b91c1c',
+                            lineColor: isDark ? '#888888' : '#333333'
+                        }
                     });
                     mermaid.run();
                 } catch (e) {
@@ -227,6 +233,120 @@ document.addEventListener('DOMContentLoaded', () => {
                 targetBtn.click();
             }
         });
+    }
+
+    // ---------------------------------------------------------
+    // 6. Collapsible Accordion Sidebar & ScrollSpy
+    // ---------------------------------------------------------
+    const tocAccordion = document.getElementById('toc-accordion');
+    const tocToggleBtn = document.getElementById('toc-accordion-toggle');
+    const tocStripExpandBtn = document.getElementById('toc-strip-expand');
+    const postLayout = document.getElementById('post-body-layout');
+
+    if (tocAccordion && postLayout) {
+        // Restore saved collapsed state or URL param (?toc=collapsed)
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlToc = urlParams.get('toc');
+        const savedCollapsed = urlToc === 'collapsed' || (urlToc !== 'open' && localStorage.getItem('toc-collapsed') === 'true');
+        if (savedCollapsed) {
+            postLayout.classList.add('sidebar-collapsed');
+            tocAccordion.classList.add('collapsed');
+            if (tocToggleBtn) tocToggleBtn.setAttribute('aria-expanded', 'false');
+        }
+
+        function toggleSidebar(collapsed) {
+            const isNowCollapsed = collapsed !== undefined 
+                ? collapsed 
+                : !postLayout.classList.contains('sidebar-collapsed');
+            
+            postLayout.classList.toggle('sidebar-collapsed', isNowCollapsed);
+            tocAccordion.classList.toggle('collapsed', isNowCollapsed);
+            if (tocToggleBtn) tocToggleBtn.setAttribute('aria-expanded', !isNowCollapsed);
+            localStorage.setItem('toc-collapsed', isNowCollapsed);
+        }
+
+        if (tocToggleBtn) {
+            tocToggleBtn.addEventListener('click', () => toggleSidebar());
+        }
+
+        if (tocStripExpandBtn) {
+            tocStripExpandBtn.addEventListener('click', () => toggleSidebar(false));
+        }
+
+        // Subsections accordion for nested lists
+        const tocListItems = tocAccordion.querySelectorAll('#TableOfContents li');
+        tocListItems.forEach(li => {
+            const subList = li.querySelector('ul');
+            if (subList) {
+                li.classList.add('has-sub');
+                // Open sub-accordion by default
+                li.classList.add('sub-open');
+
+                // Create toggle chevron for the sub-accordion
+                const chevronBtn = document.createElement('button');
+                chevronBtn.className = 'toc-sub-toggle';
+                chevronBtn.setAttribute('aria-label', 'Toggle subsection');
+                chevronBtn.innerHTML = `
+                    <svg class="sub-chevron-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                `;
+
+                chevronBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    li.classList.toggle('sub-open');
+                });
+
+                const link = li.querySelector('a');
+                if (link) {
+                    li.insertBefore(chevronBtn, link.nextSibling);
+                } else {
+                    li.appendChild(chevronBtn);
+                }
+            }
+        });
+
+        // ScrollSpy: highlight active heading & expand its sub-accordion
+        const headings = document.querySelectorAll('.post-content h2, .post-content h3, .post-content h4');
+        const tocLinks = tocAccordion.querySelectorAll('#TableOfContents a');
+
+        if (headings.length > 0 && tocLinks.length > 0) {
+            const headingMap = new Map();
+            tocLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    const id = decodeURIComponent(href.slice(1));
+                    headingMap.set(id, link);
+                }
+            });
+
+            function updateActiveToc() {
+                const scrollPos = window.scrollY + 140;
+                let activeId = null;
+
+                for (let i = headings.length - 1; i >= 0; i--) {
+                    const heading = headings[i];
+                    if (heading.offsetTop <= scrollPos) {
+                        activeId = heading.id;
+                        break;
+                    }
+                }
+
+                tocLinks.forEach(link => link.classList.remove('active'));
+
+                if (activeId && headingMap.has(activeId)) {
+                    const activeLink = headingMap.get(activeId);
+                    activeLink.classList.add('active');
+
+                    // If inside a sub-accordion, ensure it is open
+                    const parentLi = activeLink.closest('li.has-sub');
+                    if (parentLi) {
+                        parentLi.classList.add('sub-open');
+                    }
+                }
+            }
+
+            window.addEventListener('scroll', updateActiveToc, { passive: true });
+            updateActiveToc();
+        }
     }
 });
 

@@ -1,6 +1,9 @@
 <header class="header">
     <div class="container">
-        <a href="{{ site.BaseURL }}" class="logo">{{ site.Title }}</a>
+        <a href="{{ site.BaseURL }}" class="logo" aria-label="{{ site.Title }}">
+            {{ partial "logo-stamp.html" . }}
+            <span class="logo-text">{{ site.Title }}</span>
+        </a>
         <nav class="nav" id="main-nav">
             <ul class="menu">
                 {{ $currentURL := .RelPermalink }}
