@@ -44,11 +44,11 @@
             <nav class="lang-tabs" aria-label="Available languages">
                 <span class="lang-tabs-label">Languages:</span>
                 <a class="lang-tab lang-tab--active" href="{{ .RelPermalink }}" aria-current="page">
-                    {{ .Language.LanguageName }}
+                    {{ .Language.Label | default .Language.LanguageName }}
                 </a>
                 {{ range $translations }}
                 <a class="lang-tab" href="{{ .RelPermalink }}">
-                    {{ .Language.LanguageName }}
+                    {{ .Language.Label | default .Language.LanguageName }}
                 </a>
                 {{ end }}
             </nav>

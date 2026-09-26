@@ -6,19 +6,19 @@ theme = 'techpro'
 
 [languages]
   [languages.en]
-    languageName = 'English'
+    label = 'English'
     weight = 1
   [languages.zh]
-    languageName = '中文'
+    label = '中文'
     weight = 2
   [languages.de]
-    languageName = 'Deutsch'
+    label = 'Deutsch'
     weight = 3
   [languages.ja]
-    languageName = '日本語'
+    label = '日本語'
     weight = 4
   [languages.es]
-    languageName = 'Español'
+    label = 'Español'
     weight = 5
 
 [menu]
