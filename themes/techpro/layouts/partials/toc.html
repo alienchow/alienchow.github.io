@@ -6,20 +6,19 @@
 <!-- Mobile Backdrop Overlay -->
 <div class="toc-mobile-backdrop" id="toc-mobile-backdrop" aria-hidden="true"></div>
 
-<div class="toc-accordion" id="toc-accordion" aria-label="Table of contents">
-    <!-- Mobile Mini Pull-Up Tab (Docked above drawer; rests at bottom of screen when closed) -->
-    <button class="toc-mobile-pull-tab" id="toc-mobile-pull-tab" aria-label="Table of Contents" aria-expanded="false" title="Table of Contents">
-        <span class="toc-pull-handle" aria-hidden="true"></span>
-        <span class="toc-pull-inner">
-            <svg class="toc-title-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="3" y2="18"/></svg>
-            <span class="toc-pull-text">Table of Contents</span>
-            <span class="toc-pull-chevron-wrap">
-                <svg class="toc-pull-chevron" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
-            </span>
+<!-- Mobile Mini Pull-Up Tab (Independent fixed element docked permanently at bottom of viewport) -->
+<button class="toc-mobile-pull-tab" id="toc-mobile-pull-tab" aria-label="Table of Contents" aria-expanded="false" title="Table of Contents">
+    <span class="toc-pull-handle" aria-hidden="true"></span>
+    <span class="toc-pull-inner">
+        <svg class="toc-title-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="3" y2="18"/></svg>
+        <span class="toc-pull-text">Table of Contents</span>
+        <span class="toc-pull-chevron-wrap">
+            <svg class="toc-pull-chevron" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
         </span>
-    </button>
+    </span>
+</button>
 
-
+<div class="toc-accordion" id="toc-accordion" aria-label="Table of contents">
     <!-- Desktop Accordion Header & Toggle -->
     <div class="toc-accordion-header">
         <button class="toc-accordion-toggle" id="toc-accordion-toggle" aria-expanded="true" aria-controls="toc-accordion-body" title="Collapse / Expand Table of Contents">
