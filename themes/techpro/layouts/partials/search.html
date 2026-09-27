@@ -76,7 +76,9 @@
         selectedIndex = -1;
     }
 
-    if (searchBtn) searchBtn.addEventListener('click', openSearch);
+    document.querySelectorAll('#search-btn, #mobile-search-btn').forEach(btn => {
+        btn.addEventListener('click', openSearch);
+    });
     if (closeSearch) closeSearch.addEventListener('click', hideSearch);
     if (backdrop) backdrop.addEventListener('click', hideSearch);
 

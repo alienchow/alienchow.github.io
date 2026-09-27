@@ -2,48 +2,48 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------------------------------------------------------
     // 1. Theme Toggle
     // ---------------------------------------------------------
-    const themeToggle = document.getElementById('theme-toggle');
-    const sunIcon = document.querySelector('.sun-icon');
-    const moonIcon = document.querySelector('.moon-icon');
+    const themeToggles = document.querySelectorAll('#theme-toggle, #mobile-theme-toggle');
+    const sunIcons = document.querySelectorAll('.sun-icon');
+    const moonIcons = document.querySelectorAll('.moon-icon');
 
     function updateThemeIcons(isDark) {
-        if (sunIcon && moonIcon) {
-            sunIcon.style.display = isDark ? 'block' : 'none';
-            moonIcon.style.display = isDark ? 'none' : 'block';
-        }
+        sunIcons.forEach(icon => { icon.style.display = isDark ? 'block' : 'none'; });
+        moonIcons.forEach(icon => { icon.style.display = isDark ? 'none' : 'block'; });
     }
 
-    if (themeToggle) {
+    if (themeToggles.length > 0) {
         updateThemeIcons(document.documentElement.classList.contains('dark'));
 
-        themeToggle.addEventListener('click', () => {
-            const isDark = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme-preference', isDark ? 'dark' : 'light');
-            updateThemeIcons(isDark);
+        themeToggles.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme-preference', isDark ? 'dark' : 'light');
+                updateThemeIcons(isDark);
 
-            // Re-render Mermaid if active
-            if (window.mermaid) {
-                const diagrams = document.querySelectorAll('.language-mermaid, pre.mermaid');
-                diagrams.forEach(el => {
-                    el.removeAttribute('data-processed');
-                });
-                try {
-                    mermaid.initialize({
-                        startOnLoad: false,
-                        theme: isDark ? 'dark' : 'neutral',
-                        themeVariables: {
-                            fontFamily: "'Noto Serif SC', 'Songti SC', Georgia, serif",
-                            primaryColor: isDark ? '#1a1a1a' : '#f7f6f2',
-                            primaryTextColor: isDark ? '#f5f5f5' : '#111111',
-                            primaryBorderColor: isDark ? '#d93830' : '#b91c1c',
-                            lineColor: isDark ? '#888888' : '#333333'
-                        }
+                // Re-render Mermaid if active
+                if (window.mermaid) {
+                    const diagrams = document.querySelectorAll('.language-mermaid, pre.mermaid');
+                    diagrams.forEach(el => {
+                        el.removeAttribute('data-processed');
                     });
-                    mermaid.run();
-                } catch (e) {
-                    console.debug('Mermaid re-render notice:', e);
+                    try {
+                        mermaid.initialize({
+                            startOnLoad: false,
+                            theme: isDark ? 'dark' : 'neutral',
+                            themeVariables: {
+                                fontFamily: "'Noto Serif SC', 'Songti SC', Georgia, serif",
+                                primaryColor: isDark ? '#1a1a1a' : '#f7f6f2',
+                                primaryTextColor: isDark ? '#f5f5f5' : '#111111',
+                                primaryBorderColor: isDark ? '#d93830' : '#b91c1c',
+                                lineColor: isDark ? '#888888' : '#333333'
+                            }
+                        });
+                        mermaid.run();
+                    } catch (e) {
+                        console.debug('Mermaid re-render notice:', e);
+                    }
                 }
-            }
+            });
         });
     }
 
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.toggle('menu-open', isOpen);
         });
 
-        // Close menu when clicking outside or on a link
+        // Close menu when clicking outside
         document.addEventListener('click', (e) => {
             if (mainNav.classList.contains('open') && !mainNav.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
                 mainNav.classList.remove('open');
@@ -71,8 +71,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        mainNav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
+        // Close menu on links or search click (keep open on theme toggle)
+        mainNav.querySelectorAll('a, #mobile-search-btn').forEach(item => {
+            item.addEventListener('click', () => {
                 mainNav.classList.remove('open');
                 mobileMenuToggle.classList.remove('open');
                 mobileMenuToggle.setAttribute('aria-expanded', 'false');
