@@ -1953,22 +1953,9 @@ html.dark .chroma .w          { color: #444444; }
     max-width: 100% !important;
   }
 
-  .post-sidebar-column {
-    position: static !important;
-    width: 0 !important;
-    height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
-    overflow: visible !important;
-  }
-
+  .post-sidebar-column,
   .sticky-sidebar {
-    position: static !important;
-    width: 0 !important;
-    height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    display: contents !important;
   }
 
   /* Hide desktop-only TOC elements on mobile */
@@ -1979,40 +1966,40 @@ html.dark .chroma .w          { color: #444444; }
 
   /* Mobile Content Bottom Gradient Fade (smoothly dissolves text above slider area) */
   .toc-mobile-bottom-fade {
-    display: block;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: calc(72px + env(safe-area-inset-bottom, 0px));
+    display: block !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: calc(75px + env(safe-area-inset-bottom, 0px)) !important;
     background: linear-gradient(to bottom, 
       rgba(255, 255, 255, 0) 0%, 
-      rgba(255, 255, 255, 0.4) 30%, 
-      rgba(255, 255, 255, 0.85) 65%, 
+      rgba(255, 255, 255, 0.45) 30%, 
+      rgba(255, 255, 255, 0.88) 65%, 
       var(--bg) 95%
-    );
-    pointer-events: none;
-    z-index: 85;
+    ) !important;
+    pointer-events: none !important;
+    z-index: 90 !important;
   }
 
   html.dark .toc-mobile-bottom-fade {
     background: linear-gradient(to bottom, 
       rgba(13, 13, 13, 0) 0%, 
-      rgba(13, 13, 13, 0.4) 30%, 
-      rgba(13, 13, 13, 0.85) 65%, 
+      rgba(13, 13, 13, 0.45) 30%, 
+      rgba(13, 13, 13, 0.88) 65%, 
       var(--bg) 95%
-    );
+    ) !important;
   }
 
   /* Mobile Backdrop Overlay */
   .toc-mobile-backdrop {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45);
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.45) !important;
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
-    z-index: 90;
+    z-index: 990 !important;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -2020,9 +2007,9 @@ html.dark .chroma .w          { color: #444444; }
   }
 
   .toc-mobile-backdrop.open {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
   }
 
   /* Mobile Slide-Up Drawer Sheet */
@@ -2035,12 +2022,12 @@ html.dark .chroma .w          { color: #444444; }
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
-    z-index: 95 !important;
+    z-index: 995 !important;
     background: var(--bg-surface) !important;
     border: none !important;
-    border-top: 2.5px solid var(--accent) !important;
-    border-radius: 18px 18px 0 0 !important;
-    overflow: hidden !important;
+    border-top: 2px solid var(--accent) !important;
+    border-radius: 16px 16px 0 0 !important;
+    overflow: visible !important;
     display: flex !important;
     flex-direction: column !important;
     transform: translateY(100%) translateZ(0);
@@ -2054,35 +2041,34 @@ html.dark .chroma .w          { color: #444444; }
   .toc-accordion.mobile-drawer-open {
     transform: translateY(0) translateZ(0) !important;
     -webkit-transform: translateY(0) translateZ(0) !important;
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.28) !important;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3) !important;
     pointer-events: auto !important;
   }
 
-  /* Mini Pull-Up Tab: Independent Fixed Element Docked Permanently at Screen Bottom */
+  /* Mini Pull-Up Tab Docked Above Drawer Sheet (rests at screen bottom when closed) */
   .toc-mobile-pull-tab {
     display: inline-flex !important;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: fixed !important;
-    bottom: calc(0px + env(safe-area-inset-bottom, 0px)) !important;
+    position: absolute !important;
+    bottom: calc(100% - 1px) !important;
     top: auto !important;
     left: 50% !important;
     transform: translateX(-50%) translateZ(0);
     -webkit-transform: translateX(-50%) translateZ(0);
-    z-index: 100 !important;
+    z-index: 1000 !important;
     pointer-events: auto !important;
     background: var(--bg-surface);
     border: 1.5px solid var(--border);
     border-bottom: 1.5px solid var(--bg-surface);
-    border-radius: 14px 14px 0 0;
-    padding: 0.36rem 1.15rem 0.44rem;
-    box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.12);
+    border-radius: 12px 12px 0 0;
+    padding: 0.35rem 1.15rem 0.42rem;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
-    transition: color 0.15s var(--ease), border-color 0.15s var(--ease), background 0.15s var(--ease), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    will-change: transform;
+    transition: color 0.15s var(--ease), border-color 0.15s var(--ease), background 0.15s var(--ease);
   }
 
   .toc-mobile-pull-tab:hover,
@@ -2135,27 +2121,31 @@ html.dark .chroma .w          { color: #444444; }
   }
 
   /* When drawer is open, pull tab chevron rotates 180deg to point DOWN */
-  .toc-mobile-pull-tab.drawer-open .toc-pull-chevron-wrap {
+  .toc-accordion.mobile-drawer-open .toc-pull-chevron-wrap {
     transform: rotate(180deg);
   }
 
   /* Drawer Body & Content */
   .toc-accordion-body,
   .toc-accordion.collapsed .toc-accordion-body {
-    max-height: 58vh !important;
+    max-height: 60vh !important;
+    max-height: 60dvh !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
     opacity: 1 !important;
+    display: block !important;
+    pointer-events: auto !important;
     padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px)) !important;
   }
 
   .toc-content {
     max-height: none !important;
-    padding: 1.25rem 1.25rem 1.5rem !important;
+    display: block !important;
+    padding: 1rem 1.25rem 1.5rem !important;
   }
 
   .post-main-column {
-    padding-bottom: 4rem;
+    padding-bottom: 5rem !important;
   }
 }
 

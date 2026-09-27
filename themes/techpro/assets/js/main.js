@@ -273,35 +273,9 @@ document.addEventListener('DOMContentLoaded', () => {
             tocStripExpandBtn.addEventListener('click', () => toggleSidebar(false));
         }
 
-        // Mobile Slide-out Drawer Handlers (Permanently visible pull tab + bottom drawer sheet)
+        // Mobile Slide-out Drawer Handlers (Permanently visible pull tab docked to bottom drawer sheet)
         const mobilePullTab = document.getElementById('toc-mobile-pull-tab');
         const mobileBackdrop = document.getElementById('toc-mobile-backdrop');
-        const mobileBottomFade = document.querySelector('.toc-mobile-bottom-fade');
-        const stickySidebar = document.querySelector('.sticky-sidebar');
-
-        // Portal mobile TOC elements directly under document.body on mobile viewports
-        // so that mobile browser compositors never cull them as off-screen subtree elements.
-        function syncMobileTocDom() {
-            if (window.innerWidth <= 1024) {
-                if (mobilePullTab && mobilePullTab.parentElement !== document.body) {
-                    document.body.appendChild(mobilePullTab);
-                }
-                if (mobileBackdrop && mobileBackdrop.parentElement !== document.body) {
-                    document.body.appendChild(mobileBackdrop);
-                }
-                if (mobileBottomFade && mobileBottomFade.parentElement !== document.body) {
-                    document.body.appendChild(mobileBottomFade);
-                }
-                if (tocAccordion && tocAccordion.parentElement !== document.body) {
-                    document.body.appendChild(tocAccordion);
-                }
-            } else {
-                if (tocAccordion && stickySidebar && tocAccordion.parentElement !== stickySidebar) {
-                    stickySidebar.appendChild(tocAccordion);
-                }
-            }
-        }
-        syncMobileTocDom();
 
         function toggleMobileDrawer(open) {
             const shouldOpen = open !== undefined
@@ -315,15 +289,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (mobilePullTab) {
                 mobilePullTab.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
                 mobilePullTab.setAttribute('aria-label', shouldOpen ? 'Close Table of Contents' : 'Open Table of Contents');
-                mobilePullTab.classList.toggle('drawer-open', shouldOpen);
-
-                if (shouldOpen) {
-                    // Synchronously measure drawer height and elevate pull tab smoothly above the drawer sheet
-                    const drawerHeight = tocAccordion.offsetHeight;
-                    mobilePullTab.style.transform = `translateX(-50%) translateY(-${drawerHeight - 1}px) translateZ(0)`;
-                } else {
-                    mobilePullTab.style.transform = '';
-                }
             }
             if (shouldOpen) {
                 document.body.classList.add('toc-drawer-active');
@@ -356,12 +321,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         window.addEventListener('resize', () => {
-            syncMobileTocDom();
             if (window.innerWidth > 1024 && tocAccordion.classList.contains('mobile-drawer-open')) {
                 closeMobileDrawer();
-            } else if (tocAccordion.classList.contains('mobile-drawer-open') && mobilePullTab) {
-                const drawerHeight = tocAccordion.offsetHeight;
-                mobilePullTab.style.transform = `translateX(-50%) translateY(-${drawerHeight - 1}px) translateZ(0)`;
             }
         });
 
