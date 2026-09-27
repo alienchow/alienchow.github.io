@@ -273,6 +273,82 @@ document.addEventListener('DOMContentLoaded', () => {
             tocStripExpandBtn.addEventListener('click', () => toggleSidebar(false));
         }
 
+        // Mobile Slide-out Drawer Handlers (Top Navbar Drawer)
+        const mobilePullTab = document.getElementById('toc-mobile-pull-tab');
+        const mobileBackdrop = document.getElementById('toc-mobile-backdrop');
+
+        function toggleMobileDrawer(open) {
+            const shouldOpen = open !== undefined
+                ? open
+                : !tocAccordion.classList.contains('mobile-drawer-open');
+
+            tocAccordion.classList.toggle('mobile-drawer-open', shouldOpen);
+            if (mobileBackdrop) {
+                mobileBackdrop.classList.toggle('open', shouldOpen);
+            }
+            if (mobilePullTab) {
+                mobilePullTab.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+                mobilePullTab.setAttribute('aria-label', shouldOpen ? 'Close Table of Contents' : 'Open Table of Contents');
+            }
+            if (shouldOpen) {
+                document.body.classList.add('toc-drawer-active');
+            } else {
+                document.body.classList.remove('toc-drawer-active');
+            }
+        }
+
+        function closeMobileDrawer() {
+            toggleMobileDrawer(false);
+        }
+
+        if (mobilePullTab) {
+            mobilePullTab.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMobileDrawer();
+            });
+        }
+
+        if (mobileBackdrop) {
+            mobileBackdrop.addEventListener('click', () => {
+                closeMobileDrawer();
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && tocAccordion.classList.contains('mobile-drawer-open')) {
+                closeMobileDrawer();
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 1024 && tocAccordion.classList.contains('mobile-drawer-open')) {
+                closeMobileDrawer();
+            }
+        });
+
+        // Swipe down to dismiss drawer on mobile
+        let touchStartY = 0;
+        let touchCurrentY = 0;
+
+        tocAccordion.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+            touchCurrentY = touchStartY;
+        }, { passive: true });
+
+        tocAccordion.addEventListener('touchmove', (e) => {
+            touchCurrentY = e.touches[0].clientY;
+        }, { passive: true });
+
+        tocAccordion.addEventListener('touchend', () => {
+            const drawerBody = tocAccordion.querySelector('.toc-accordion-body');
+            const isAtTop = !drawerBody || drawerBody.scrollTop <= 5;
+            if (isAtTop && (touchCurrentY - touchStartY > 50) && tocAccordion.classList.contains('mobile-drawer-open')) {
+                closeMobileDrawer();
+            }
+            touchStartY = 0;
+            touchCurrentY = 0;
+        });
+
         // Subsections accordion for nested lists
         const tocListItems = tocAccordion.querySelectorAll('#TableOfContents li');
         tocListItems.forEach(li => {
@@ -307,6 +383,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // ScrollSpy: highlight active heading & expand its sub-accordion
         const headings = document.querySelectorAll('.post-content h2, .post-content h3, .post-content h4');
         const tocLinks = tocAccordion.querySelectorAll('#TableOfContents a');
+
+        // Close mobile drawer when clicking any TOC link
+        tocLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 1024) {
+                    closeMobileDrawer();
+                }
+            });
+        });
 
         if (headings.length > 0 && tocLinks.length > 0) {
             const headingMap = new Map();
